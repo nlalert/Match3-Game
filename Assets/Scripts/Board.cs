@@ -85,6 +85,14 @@ public class Board : MonoBehaviour
                 } else {
                     if (AreAdjacent(selectedCandy, clickedCandy)) {
                         SwapCandies(selectedCandy, clickedCandy);
+
+                        if (CheckMatches(selectedCandy) || CheckMatches(clickedCandy)) {
+                            Debug.Log("Match");
+                        } else {
+                            // If no match, swap back
+                            SwapCandies(selectedCandy, clickedCandy);
+                            Debug.Log("No Match : Swap cancel.");
+                        }
                     }
                     selectedCandy = null;
                 }
@@ -123,5 +131,52 @@ public class Board : MonoBehaviour
         Vector3 tempPosition = candy1.transform.position;
         candy1.transform.position = candy2.transform.position;
         candy2.transform.position = tempPosition;
+    }
+
+    private bool CheckMatches(Candy candy) {
+        List<Candy> matchedCandies = new List<Candy>();
+
+        // Check horizontal matches
+        matchedCandies.Add(candy);
+        for (int i = candy.x - 1; i >= 0; i--) {//left
+            if (candies[i, candy.y] != null && candies[i, candy.y].type == candy.type) {
+                matchedCandies.Add(candies[i, candy.y]);
+            } else {
+                break;
+            }
+        }
+        for (int i = candy.x + 1; i < width; i++) {//right
+            if (candies[i, candy.y] != null && candies[i, candy.y].type == candy.type) {
+                matchedCandies.Add(candies[i, candy.y]);
+            } else {
+                break;
+            }
+        }
+        if (matchedCandies.Count >= 3) {//match from left and right
+            return true;
+        }
+
+        // Check vertical matches
+        matchedCandies.Clear();
+        matchedCandies.Add(candy);
+        for (int i = candy.y - 1; i >= 0; i--) {//up
+            if (candies[candy.x, i] != null && candies[candy.x, i].type == candy.type) {
+                matchedCandies.Add(candies[candy.x, i]);
+            } else {
+                break;
+            }
+        }
+        for (int i = candy.y + 1; i < height; i++) {//down
+            if (candies[candy.x, i] != null && candies[candy.x, i].type == candy.type) {
+                matchedCandies.Add(candies[candy.x, i]);
+            } else {
+                break;
+            }
+        }
+        if (matchedCandies.Count >= 3) {//match from up and down
+            return true;
+        }
+
+        return false;
     }
 }
