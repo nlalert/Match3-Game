@@ -97,8 +97,13 @@ public class Board : MonoBehaviour
         isAnimating = true;
         yield return StartCoroutine(AnimateSwap(candy1, candy2));
 
-        if (CheckMatches(candy1) || CheckMatches(candy2)) {
+        List<Candy> matches1 = GetMatches(candy1);
+        List<Candy> matches2 = GetMatches(candy2);
+
+        if ((matches1 != null && matches1.Count >= 3) || (matches2 != null && matches2.Count >= 3)) {
             Debug.Log("Match found!");
+            if (matches1 != null) DestroyMatches(matches1);
+            if (matches2 != null) DestroyMatches(matches2);
         } else {
             Debug.Log("No Match: Swapping back.");
             yield return StartCoroutine(AnimateSwap(candy1, candy2));
@@ -153,7 +158,7 @@ public class Board : MonoBehaviour
         candy2.UpdatePosition(tempX, tempY);
     }
 
-    private bool CheckMatches(Candy candy) {
+    private List<Candy> GetMatches(Candy candy) {
         List<Candy> matchedCandies = new List<Candy>();
 
         // Check horizontal matches
@@ -172,9 +177,7 @@ public class Board : MonoBehaviour
                 break;
             }
         }
-        if (matchedCandies.Count >= 3) {
-            return true;
-        }
+        if (matchedCandies.Count >= 3) return matchedCandies;
 
         // Check vertical matches
         matchedCandies.Clear();
@@ -193,10 +196,15 @@ public class Board : MonoBehaviour
                 break;
             }
         }
-        if (matchedCandies.Count >= 3) {
-            return true;
-        }
+        if (matchedCandies.Count >= 3) return matchedCandies;
 
-        return false;
+        return null; // No matches found
+    }
+
+    private void DestroyMatches(List<Candy> matches) {
+        foreach (Candy candy in matches) {
+            candies[candy.x, candy.y] = null; // Remove from the board array
+            Destroy(candy.gameObject);       // Destroy the game object
+        }
     }
 }
