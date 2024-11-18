@@ -161,49 +161,57 @@ public class Board : MonoBehaviour
     }
 
     private List<Candy> GetMatches(Candy candy) {
-        List<Candy> matchedCandies = new List<Candy>();
+        HashSet<Candy> matchedCandies = new HashSet<Candy>();
 
         // Check horizontal matches
-        matchedCandies.Add(candy);
+        List<Candy> horizontalMatches = new List<Candy>();
+        horizontalMatches.Add(candy);
         for (int i = candy.x - 1; i >= 0; i--) {
             if (candies[i, candy.y] != null && candies[i, candy.y].type == candy.type) {
-                matchedCandies.Add(candies[i, candy.y]);
+                horizontalMatches.Add(candies[i, candy.y]);
             } else {
                 break;
             }
         }
         for (int i = candy.x + 1; i < width; i++) {
             if (candies[i, candy.y] != null && candies[i, candy.y].type == candy.type) {
-                matchedCandies.Add(candies[i, candy.y]);
+                horizontalMatches.Add(candies[i, candy.y]);
             } else {
                 break;
             }
         }
-        if (matchedCandies.Count >= 3) return matchedCandies;
+        if (horizontalMatches.Count >= 3) {
+            foreach (Candy c in horizontalMatches) {
+                matchedCandies.Add(c);
+            }
+        }
 
         // Check vertical matches
-        matchedCandies.Clear();
-        matchedCandies.Add(candy);
+        List<Candy> verticalMatches = new List<Candy>();
+        verticalMatches.Add(candy);
         for (int i = candy.y - 1; i >= 0; i--) {
             if (candies[candy.x, i] != null && candies[candy.x, i].type == candy.type) {
-                matchedCandies.Add(candies[candy.x, i]);
+                verticalMatches.Add(candies[candy.x, i]);
             } else {
                 break;
             }
         }
         for (int i = candy.y + 1; i < height; i++) {
             if (candies[candy.x, i] != null && candies[candy.x, i].type == candy.type) {
-                matchedCandies.Add(candies[candy.x, i]);
+                verticalMatches.Add(candies[candy.x, i]);
             } else {
                 break;
             }
         }
-        if (matchedCandies.Count >= 3) return matchedCandies;
+        if (verticalMatches.Count >= 3) {
+            foreach (Candy c in verticalMatches) {
+                matchedCandies.Add(c);
+            }
+        }
 
-        return null;
+        // Return the combined list of matches
+        return matchedCandies.Count >= 3 ? new List<Candy>(matchedCandies) : null;
     }
-
-
 
     private void DestroyMatches(List<Candy> matches) {
         foreach (Candy candy in matches) {
