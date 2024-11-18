@@ -5,13 +5,19 @@ using UnityEngine.Tilemaps;
 public class Board : MonoBehaviour
 {
     public Candy[,] candies;
-    public GameObject[] candyPrefabs; // Assign prefabs for each candy type
+    public GameObject[] candyPrefabs;
     public int width = 15;
     public int height = 20;
-    private float candySpacing = 1.2f; // Adjust this to increase/decrease spacing
+    private float candySpacing = 1.2f;
+
+    private Candy selectedCandy = null;
 
     private void Start() {
         InitializeBoard();
+    }
+
+    private void Update() {
+        HandleInput(); // Check for user input each frame
     }
 
     private void InitializeBoard() {
@@ -29,7 +35,7 @@ public class Board : MonoBehaviour
 
         do {
             randomType = Random.Range(0, candyPrefabs.Length);
-        } while (WillMatchIfAdd(x, y, randomType)); // Retry until no match is formed
+        } while (WillMatchIfAdd(x, y, randomType));
 
         // Apply spacing to position
         Vector3 position = new Vector3(
@@ -46,7 +52,7 @@ public class Board : MonoBehaviour
 
     private bool WillMatchIfAdd(int x, int y, int type) {
         // Check horizontally
-        if (x >= 2) { // Ensure we are at least 2 columns away from the left edge
+        if (x >= 2) {
             if (candies[x - 1, y] != null && candies[x - 2, y] != null) {
                 if (candies[x - 1, y].type == type && candies[x - 2, y].type == type) {
                     return true;
@@ -55,7 +61,7 @@ public class Board : MonoBehaviour
         }
 
         // Check vertically
-        if (y >= 2) { // Ensure we are at least 2 rows away from the bottom edge
+        if (y >= 2) {
             if (candies[x, y - 1] != null && candies[x, y - 2] != null) {
                 if (candies[x, y - 1].type == type && candies[x, y - 2].type == type) {
                     return true;
@@ -63,6 +69,59 @@ public class Board : MonoBehaviour
             }
         }
 
-        return false; // No match found
+        return false;
+    }
+
+    private void HandleInput() {
+        if (Input.GetMouseButtonDown(0)) {
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3Int gridPos = GetBoardGridPosition(mousePos);
+
+            if (IsInBoard(gridPos.x, gridPos.y)) {
+                Candy clickedCandy = candies[gridPos.x, gridPos.y];
+
+                if (selectedCandy == null) {
+                    selectedCandy = clickedCandy;
+                } else {
+                    if (AreAdjacent(selectedCandy, clickedCandy)) {
+                        SwapCandies(selectedCandy, clickedCandy);
+                    }
+                    selectedCandy = null;
+                }
+            }
+        }
+    }
+
+    private Vector3Int GetBoardGridPosition(Vector3 worldPosition) {
+        int x = Mathf.RoundToInt((worldPosition.x + (width * candySpacing) / 2) / candySpacing);
+        int y = Mathf.RoundToInt((worldPosition.y + (height * candySpacing) / 2) / candySpacing);
+        Debug.Log("X :"+x);
+        Debug.Log("Y :"+y);
+
+        return new Vector3Int(x, y, 0);
+    }
+
+    private bool IsInBoard(int x, int y) {
+        return x >= 0 && x < width && y >= 0 && y < height;
+    }
+
+    private bool AreAdjacent(Candy candy1, Candy candy2) {
+        int deltaX = Mathf.Abs(candy1.x - candy2.x);
+        int deltaY = Mathf.Abs(candy1.y - candy2.y);
+        return (deltaX == 1 && deltaY == 0) || (deltaX == 0 && deltaY == 1);
+    }
+
+    private void SwapCandies(Candy candy1, Candy candy2) {
+        candies[candy1.x, candy1.y] = candy2;
+        candies[candy2.x, candy2.y] = candy1;
+
+        int tempX = candy1.x;
+        int tempY = candy1.y;
+        candy1.UpdatePosition(candy2.x, candy2.y);
+        candy2.UpdatePosition(tempX, tempY);
+
+        Vector3 tempPosition = candy1.transform.position;
+        candy1.transform.position = candy2.transform.position;
+        candy2.transform.position = tempPosition;
     }
 }
