@@ -1,6 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class Board : MonoBehaviour
 {
@@ -11,13 +11,15 @@ public class Board : MonoBehaviour
     private float candySpacing = 1.2f;
 
     private Candy selectedCandy = null;
+    private bool isAnimating = false;
 
     private void Start() {
         InitializeBoard();
     }
 
     private void Update() {
-        HandleInput(); // Check for user input each frame
+        if (isAnimating) return;
+        HandleInput();
     }
 
     private void InitializeBoard() {
@@ -37,7 +39,6 @@ public class Board : MonoBehaviour
             randomType = Random.Range(0, candyPrefabs.Length);
         } while (WillMatchIfAdd(x, y, randomType));
 
-        // Apply spacing to position
         Vector3 position = new Vector3(
             x * candySpacing - (width * candySpacing) / 2,
             y * candySpacing - (height * candySpacing) / 2,
@@ -84,15 +85,7 @@ public class Board : MonoBehaviour
                     selectedCandy = clickedCandy;
                 } else {
                     if (AreAdjacent(selectedCandy, clickedCandy)) {
-                        SwapCandies(selectedCandy, clickedCandy);
-
-                        if (CheckMatches(selectedCandy) || CheckMatches(clickedCandy)) {
-                            Debug.Log("Match");
-                        } else {
-                            // If no match, swap back
-                            SwapCandies(selectedCandy, clickedCandy);
-                            Debug.Log("No Match : Swap cancel.");
-                        }
+                        StartCoroutine(HandleSwap(selectedCandy, clickedCandy));
                     }
                     selectedCandy = null;
                 }
@@ -100,12 +93,23 @@ public class Board : MonoBehaviour
         }
     }
 
+    private IEnumerator HandleSwap(Candy candy1, Candy candy2) {
+        isAnimating = true;
+        yield return StartCoroutine(AnimateSwap(candy1, candy2));
+
+        if (CheckMatches(candy1) || CheckMatches(candy2)) {
+            Debug.Log("Match found!");
+        } else {
+            Debug.Log("No Match: Swapping back.");
+            yield return StartCoroutine(AnimateSwap(candy1, candy2));
+        }
+
+        isAnimating = false;
+    }
+
     private Vector3Int GetBoardGridPosition(Vector3 worldPosition) {
         int x = Mathf.RoundToInt((worldPosition.x + (width * candySpacing) / 2) / candySpacing);
         int y = Mathf.RoundToInt((worldPosition.y + (height * candySpacing) / 2) / candySpacing);
-        Debug.Log("X :"+x);
-        Debug.Log("Y :"+y);
-
         return new Vector3Int(x, y, 0);
     }
 
@@ -119,7 +123,27 @@ public class Board : MonoBehaviour
         return (deltaX == 1 && deltaY == 0) || (deltaX == 0 && deltaY == 1);
     }
 
-    private void SwapCandies(Candy candy1, Candy candy2) {
+    private IEnumerator AnimateSwap(Candy candy1, Candy candy2, float duration = 0.2f) {
+        Vector3 startPos1 = candy1.transform.position;
+        Vector3 startPos2 = candy2.transform.position;
+
+        float elapsed = 0f;
+
+        while (elapsed < duration) {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+            candy1.transform.position = Vector3.Lerp(startPos1, startPos2, t);
+            candy2.transform.position = Vector3.Lerp(startPos2, startPos1, t);
+            yield return null;
+        }
+
+        candy1.transform.position = startPos2;
+        candy2.transform.position = startPos1;
+
+        CompleteSwap(candy1, candy2);
+    }
+
+    private void CompleteSwap(Candy candy1, Candy candy2) {
         candies[candy1.x, candy1.y] = candy2;
         candies[candy2.x, candy2.y] = candy1;
 
@@ -127,10 +151,6 @@ public class Board : MonoBehaviour
         int tempY = candy1.y;
         candy1.UpdatePosition(candy2.x, candy2.y);
         candy2.UpdatePosition(tempX, tempY);
-
-        Vector3 tempPosition = candy1.transform.position;
-        candy1.transform.position = candy2.transform.position;
-        candy2.transform.position = tempPosition;
     }
 
     private bool CheckMatches(Candy candy) {
@@ -138,42 +158,42 @@ public class Board : MonoBehaviour
 
         // Check horizontal matches
         matchedCandies.Add(candy);
-        for (int i = candy.x - 1; i >= 0; i--) {//left
+        for (int i = candy.x - 1; i >= 0; i--) {
             if (candies[i, candy.y] != null && candies[i, candy.y].type == candy.type) {
                 matchedCandies.Add(candies[i, candy.y]);
             } else {
                 break;
             }
         }
-        for (int i = candy.x + 1; i < width; i++) {//right
+        for (int i = candy.x + 1; i < width; i++) {
             if (candies[i, candy.y] != null && candies[i, candy.y].type == candy.type) {
                 matchedCandies.Add(candies[i, candy.y]);
             } else {
                 break;
             }
         }
-        if (matchedCandies.Count >= 3) {//match from left and right
+        if (matchedCandies.Count >= 3) {
             return true;
         }
 
         // Check vertical matches
         matchedCandies.Clear();
         matchedCandies.Add(candy);
-        for (int i = candy.y - 1; i >= 0; i--) {//up
+        for (int i = candy.y - 1; i >= 0; i--) {
             if (candies[candy.x, i] != null && candies[candy.x, i].type == candy.type) {
                 matchedCandies.Add(candies[candy.x, i]);
             } else {
                 break;
             }
         }
-        for (int i = candy.y + 1; i < height; i++) {//down
+        for (int i = candy.y + 1; i < height; i++) {
             if (candies[candy.x, i] != null && candies[candy.x, i].type == candy.type) {
                 matchedCandies.Add(candies[candy.x, i]);
             } else {
                 break;
             }
         }
-        if (matchedCandies.Count >= 3) {//match from up and down
+        if (matchedCandies.Count >= 3) {
             return true;
         }
 
