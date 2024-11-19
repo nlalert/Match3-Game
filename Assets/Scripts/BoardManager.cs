@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Board : MonoBehaviour
+public class BoardManager : MonoBehaviour
 {
     public Candy[,] candies;
     public GameObject[] candyPrefabs;
@@ -19,7 +19,6 @@ public class Board : MonoBehaviour
 
     private void Update() {
         if (isAnimating) return;
-        HandleInput();
     }
 
     private void InitializeBoard() {
@@ -73,22 +72,26 @@ public class Board : MonoBehaviour
         return false;
     }
 
-    private void HandleInput() {
-        if (Input.GetMouseButtonDown(0)) {
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3Int gridPos = GetBoardGridPosition(mousePos);
+    public void HandleCandyClick(Vector3 mousePos){
+        if (isAnimating) return;
 
-            if (IsInBoard(gridPos.x, gridPos.y)) {
-                Candy clickedCandy = candies[gridPos.x, gridPos.y];
+        Vector3Int gridPos = GetBoardGridPosition(mousePos);
 
-                if (selectedCandy == null) {
-                    selectedCandy = clickedCandy;
-                } else {
-                    if (AreAdjacent(selectedCandy, clickedCandy)) {
-                        StartCoroutine(HandleSwap(selectedCandy, clickedCandy));
-                    }
-                    selectedCandy = null;
+        if (IsInBoard(gridPos.x, gridPos.y))
+        {
+            Candy clickedCandy = candies[gridPos.x, gridPos.y];
+
+            if (selectedCandy == null)
+            {
+                selectedCandy = clickedCandy;
+            }
+            else
+            {
+                if (AreAdjacent(selectedCandy, clickedCandy))
+                {
+                    StartCoroutine(HandleSwap(selectedCandy, clickedCandy));
                 }
+                selectedCandy = null;
             }
         }
     }
