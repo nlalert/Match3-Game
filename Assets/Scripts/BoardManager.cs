@@ -13,6 +13,8 @@ public class BoardManager : MonoBehaviour
     private Candy selectedCandy = null;
     private bool isAnimating = false;
 
+    public ScoreManager scoreManager;
+
     private void Start() {
         InitializeBoard();
     }
@@ -216,8 +218,12 @@ public class BoardManager : MonoBehaviour
         return matchedCandies.Count >= 3 ? new List<Candy>(matchedCandies) : null;
     }
 
-    private void DestroyMatches(List<Candy> matches) {
-        foreach (Candy candy in matches) {
+    private void DestroyMatches(List<Candy> matches)
+    {
+        scoreManager.CalculateScore(matches); // Add points to the score
+
+        foreach (Candy candy in matches)
+        {
             candies[candy.x, candy.y] = null; // Remove from the board array
             Destroy(candy.gameObject);       // Destroy the game object
         }
