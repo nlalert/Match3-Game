@@ -108,15 +108,16 @@ public class BoardManager : MonoBehaviour
 
         if ((matches1 != null && matches1.Count >= 3) || (matches2 != null && matches2.Count >= 3)) {
             Debug.Log("Match found!");
+            if (!moveManager.UseMove()) {
+                Debug.Log("No moves remaining!");
+                GameOver();
+            }
+            
             if (matches1 != null) DestroyMatches(matches1);
             if (matches2 != null) DestroyMatches(matches2);
 
             yield return StartCoroutine(FillEmptySpots());
 
-            if (!moveManager.UseMove()) {
-                Debug.Log("No moves remaining!");
-                GameOver();
-            }
         }
         else {
             Debug.Log("No Match: Swapping back.");
