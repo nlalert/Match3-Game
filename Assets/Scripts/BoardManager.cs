@@ -14,6 +14,7 @@ public class BoardManager : MonoBehaviour
     private bool isAnimating = false;
 
     public ScoreManager scoreManager;
+    public MoveManager moveManager;
 
     private void Start() {
         InitializeBoard();
@@ -76,11 +77,11 @@ public class BoardManager : MonoBehaviour
 
     public void HandleCandyClick(Vector3 mousePos){
         if (isAnimating) return;
+        if (!moveManager.HasMoveLeft()) return;
 
         Vector3Int gridPos = GetBoardGridPosition(mousePos);
 
-        if (IsInBoard(gridPos.x, gridPos.y))
-        {
+        if (IsInBoard(gridPos.x, gridPos.y)) {
             Candy clickedCandy = candies[gridPos.x, gridPos.y];
 
             if (selectedCandy == null)
@@ -111,12 +112,22 @@ public class BoardManager : MonoBehaviour
             if (matches2 != null) DestroyMatches(matches2);
 
             yield return StartCoroutine(FillEmptySpots());
-        } else {
+
+            if (!moveManager.UseMove()) {
+                Debug.Log("No moves remaining!");
+                GameOver();
+            }
+        }
+        else {
             Debug.Log("No Match: Swapping back.");
             yield return StartCoroutine(AnimateSwap(candy1, candy2));
         }
 
         isAnimating = false;
+    }
+
+    private void GameOver() {
+        Debug.Log("Game Over! No moves remaining.");
     }
 
     private Vector3Int GetBoardGridPosition(Vector3 worldPosition) {
@@ -220,12 +231,12 @@ public class BoardManager : MonoBehaviour
 
     private void DestroyMatches(List<Candy> matches)
     {
-        scoreManager.CalculateScore(matches); // Add points to the score
+        scoreManager.CalculateScore(matches);
 
         foreach (Candy candy in matches)
         {
-            candies[candy.x, candy.y] = null; // Remove from the board array
-            Destroy(candy.gameObject);       // Destroy the game object
+            candies[candy.x, candy.y] = null; 
+            Destroy(candy.gameObject);    
         }
     }
 

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class ScoreManager : MonoBehaviour
 {
     public int score { get; private set; }
-    public TextMeshProUGUI scoreText; // Reference to a UI Text element (TextMeshPro)
+    public TextMeshProUGUI scoreText;
 
     private void Start(){
         score = 0;
@@ -13,7 +13,7 @@ public class ScoreManager : MonoBehaviour
     }
 
     public void CalculateScore(List<Candy> matches){
-        int points = matches.Count * 10; // Example: 10 points per candy
+        int points = matches.Count * 10;
         score += points;
         UpdateScoreUI();
     }
