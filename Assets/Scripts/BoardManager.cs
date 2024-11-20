@@ -8,7 +8,6 @@ public class BoardManager : MonoBehaviour
     public GameObject[] candyPrefabs;
     public int width = 15;
     public int height = 20;
-    private float candySpacing = 1.2f;
 
     private Candy selectedCandy = null;
     private bool isAnimating = false;
@@ -42,8 +41,8 @@ public class BoardManager : MonoBehaviour
         } while (WillMatchIfAdd(x, y, randomType));
 
         Vector3 position = new Vector3(
-            x * candySpacing - (width * candySpacing) / 2,
-            y * candySpacing - (height * candySpacing) / 2,
+            x - (width / 2),
+            y - (height / 2),
             0
         );
 
@@ -132,8 +131,8 @@ public class BoardManager : MonoBehaviour
     }
 
     private Vector3Int GetBoardGridPosition(Vector3 worldPosition) {
-        int x = Mathf.RoundToInt((worldPosition.x + (width * candySpacing) / 2) / candySpacing);
-        int y = Mathf.RoundToInt((worldPosition.y + (height * candySpacing) / 2) / candySpacing);
+        int x = Mathf.RoundToInt(worldPosition.x + (width / 2));
+        int y = Mathf.RoundToInt(worldPosition.y + (height / 2));
         return new Vector3Int(x, y, 0);
     }
 
@@ -295,8 +294,8 @@ public class BoardManager : MonoBehaviour
 
     private IEnumerator AnimateCandyFall(Candy candy, float duration = 0.2f) {
         Vector3 targetPosition = new Vector3(
-            candy.x * candySpacing - (width * candySpacing) / 2,
-            candy.y * candySpacing - (height * candySpacing) / 2,
+            candy.x - (width / 2),
+            candy.y - (height / 2),
             0
         );
 
