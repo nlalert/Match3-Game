@@ -2,8 +2,9 @@ using UnityEngine;
 
 public enum PowerUpType {
     None,
-    LineClear,  // Clears the row and column
-    Bomb        // Clears a 3x3 area
+    LineClear,
+    Bomb,
+    DNA
 }
 
 public class Candy : MonoBehaviour {
