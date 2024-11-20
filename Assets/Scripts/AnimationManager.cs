@@ -22,7 +22,7 @@ public class AnimationManager : MonoBehaviour {
         candy1.transform.position = startPos2;
         candy2.transform.position = startPos1;
 
-        board.CompleteSwap(candy1, candy2);
+        board.swapManager.CompleteSwap(candy1, candy2);
     }
 
     public IEnumerator AnimateCandyFall(Candy candy, float duration = 0.2f) {
