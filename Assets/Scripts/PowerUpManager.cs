@@ -106,13 +106,13 @@ public class PowerUpManager : MonoBehaviour {
         // Clear the row
         for (int i = 0; i < board.width; i++) {
             clearedFossils.Add(board.fossils[i, y]);
-            ClearFossil(i, y);
+            ClearFossil(board.fossils[i, y]);
         }
 
         // Clear the column
         for (int j = 0; j < board.height; j++) {
             clearedFossils.Add(board.fossils[x, j]);
-            ClearFossil(x, j);
+            ClearFossil(board.fossils[x, j]);
         }
 
         scoreManager.AddScoreForPowerUpActivation(PowerUpType.LineClear, clearedFossils.Count);
@@ -129,7 +129,7 @@ public class PowerUpManager : MonoBehaviour {
             for (int j = y - 2; j <= y + 2; j++) {
                 if (board.IsInBoard(i, j)) {
                     clearedFossils.Add(board.fossils[i, j]);
-                    ClearFossil(i, j);
+                    ClearFossil(board.fossils[i, j]);
                 }
             }
         }
@@ -145,7 +145,7 @@ public class PowerUpManager : MonoBehaviour {
         foreach (Fossil boardFossil in board.fossils) {
             if (boardFossil != null && boardFossil.type == fossil.type) {
                 clearedFossils.Add(boardFossil);
-                ClearFossil(boardFossil.x, boardFossil.y);
+                ClearFossil(boardFossil);
             }
         }
 
@@ -153,13 +153,10 @@ public class PowerUpManager : MonoBehaviour {
         Debug.Log($"DNA activated: Cleared {clearedFossils.Count} fossils of type {fossil.type}");
     }
 
-    private void ClearFossil(int x, int y) {
-        Fossil targetFossil = board.fossils[x, y];
-
+    private void ClearFossil(Fossil targetFossil) {
         if (targetFossil != null) {
-            board.fossils[x, y] = null;  // Remove fossil from the board
-            Destroy(targetFossil.gameObject);  // Destroy the fossil object
-            Debug.Log($"Cleared fossil at ({x}, {y})");
+            board.DestroyFossil(targetFossil);
+            Debug.Log($"Cleared fossil at ({targetFossil.x}, {targetFossil.y})");
         }
     }
 }

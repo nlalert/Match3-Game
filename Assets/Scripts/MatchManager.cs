@@ -99,9 +99,7 @@ public class MatchManager : MonoBehaviour{
             if (fossil.powerUpType != PowerUpType.None) {
                 powerUpManager.ActivatePowerUp(fossil); // Activate any other power-ups
             }
-
-            board.fossils[fossil.x, fossil.y] = null; // Clear the fossil from the board
-            Destroy(fossil.gameObject); // Destroy the fossil object
+            board.DestroyFossil(fossil);
         }
     }
 }

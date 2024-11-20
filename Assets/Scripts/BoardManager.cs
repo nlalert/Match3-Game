@@ -7,7 +7,6 @@ public class BoardManager : MonoBehaviour
     public Fossil[,] fossils;
     public int width = 15;
     public int height = 20;
-
     public Fossil selectedFossil = null;
     public Fossil[] swapPair = new Fossil[2];
 
@@ -67,5 +66,10 @@ public class BoardManager : MonoBehaviour
 
     public bool IsInBoard(int x, int y) {
         return x >= 0 && x < width && y >= 0 && y < height;
+    }
+
+    public void DestroyFossil(Fossil fossil){
+        fossils[fossil.x, fossil.y] = null;
+        Destroy(fossil.gameObject);
     }
 }
