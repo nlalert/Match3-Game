@@ -82,7 +82,7 @@ public class MatchManager : MonoBehaviour{
     public void DestroyMatches(List<Fossil> matches) {
         if (matches == null || matches.Count < 3) return;
 
-        AudioManager.Instance.PlaySound(AudioManager.Instance.matchSound); // Play match sound
+        PlayRandomMatchSound();
         scoreManager.CalculateScore(matches);
 
         Fossil powerUpFossil = null;
@@ -100,6 +100,25 @@ public class MatchManager : MonoBehaviour{
                 powerUpManager.ActivatePowerUp(fossil); // Activate any other power-ups
             }
             board.DestroyFossil(fossil);
+        }
+    }
+
+    private void PlayRandomMatchSound(){
+        int randomSound = Random.Range(0, 4);
+        switch (randomSound)
+        {
+            case 0:
+                AudioManager.Instance.PlaySound(AudioManager.Instance.matchSound1); // Play match sound
+                break;
+            case 1:
+                AudioManager.Instance.PlaySound(AudioManager.Instance.matchSound2); // Play match sound
+                break;
+            case 2:
+                AudioManager.Instance.PlaySound(AudioManager.Instance.matchSound3); // Play match sound
+                break;
+            default:
+                AudioManager.Instance.PlaySound(AudioManager.Instance.matchSound4); // Play match sound
+                break;
         }
     }
 }

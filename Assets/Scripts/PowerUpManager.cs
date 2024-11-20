@@ -16,6 +16,7 @@ public class PowerUpManager : MonoBehaviour {
         // Create appropriate power-ups based on the match
         if (IsDNA(matches)) {
             CreatePowerUp(centralFossil, PowerUpType.DNA);
+            AudioManager.Instance.PlaySound(AudioManager.Instance.colorBombCreatedSound);
             scoreManager.CalculateScore(matches, PowerUpType.DNA);
             Debug.Log("Power-Up Created: DNA");
             return centralFossil;
@@ -23,6 +24,7 @@ public class PowerUpManager : MonoBehaviour {
 
         if (matches.Count == 4) {
             CreatePowerUp(centralFossil, PowerUpType.LineClear);
+            AudioManager.Instance.PlaySound(AudioManager.Instance.stripeCreatedSound);
             scoreManager.CalculateScore(matches, PowerUpType.LineClear);
             Debug.Log("Power-Up Created: Line Clear");
             return centralFossil;
@@ -30,6 +32,7 @@ public class PowerUpManager : MonoBehaviour {
 
         if (matches.Count >= 5) {
             CreatePowerUp(centralFossil, PowerUpType.Bomb);
+            AudioManager.Instance.PlaySound(AudioManager.Instance.wrapCreatedSound);
             scoreManager.CalculateScore(matches, PowerUpType.Bomb);
             Debug.Log("Power-Up Created: Bomb");
             return centralFossil;
