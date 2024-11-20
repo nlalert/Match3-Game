@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class BoardManager : MonoBehaviour
 {
-    public Candy[,] candies;
+    public Fossil[,] fossils;
     public int width = 15;
     public int height = 20;
 
-    public Candy selectedCandy = null;
-    public Candy[] swapPair = new Candy[2];
+    public Fossil selectedFossil = null;
+    public Fossil[] swapPair = new Fossil[2];
 
     public MoveManager moveManager;
     public AnimationManager animationManager;
-    public CandySpawner candySpawner;
+    public FossilSpawner fossilSpawner;
     public SwapManager swapManager;
 
     private void Start() {
@@ -25,37 +25,37 @@ public class BoardManager : MonoBehaviour
     }
 
     private void InitializeBoard() {
-        candies = new Candy[width, height];
-        FillBoardWithCandies();
+        fossils = new Fossil[width, height];
+        FillBoardWithFossils();
     }
 
-    private void FillBoardWithCandies() {
+    private void FillBoardWithFossils() {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                candySpawner.SpawnCandy(x, y);
+                fossilSpawner.SpawnFossil(x, y);
             }
         }
     }
 
-    public void HandleCandyClick(Vector3 mousePos) {
+    public void HandleFossilClick(Vector3 mousePos) {
         if (animationManager.isAnimating || !moveManager.HasMoveLeft()) return;
 
         Vector2Int gridPos = GetBoardGridPosition(mousePos);
 
         if (!IsInBoard(gridPos.x, gridPos.y)) return;
 
-        Candy clickedCandy = candies[gridPos.x, gridPos.y];
-        ProcessCandySelection(clickedCandy);
+        Fossil clickedFossil = fossils[gridPos.x, gridPos.y];
+        ProcessFossilSelection(clickedFossil);
     }
 
-    private void ProcessCandySelection(Candy clickedCandy) {
-        if (selectedCandy == null) {
-            selectedCandy = clickedCandy;  // Select the first candy
+    private void ProcessFossilSelection(Fossil clickedFossil) {
+        if (selectedFossil == null) {
+            selectedFossil = clickedFossil;  // Select the first fossil
         } else {
-            swapPair[0] = selectedCandy;
-            swapPair[1] = clickedCandy;
+            swapPair[0] = selectedFossil;
+            swapPair[1] = clickedFossil;
             swapManager.CheckAndSwap(swapPair[0], swapPair[1]);
-            selectedCandy = null;  // Reset selection after swap
+            selectedFossil = null;  // Reset selection after swap
         }
     }
 

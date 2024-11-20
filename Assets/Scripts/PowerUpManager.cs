@@ -7,61 +7,61 @@ public class PowerUpManager : MonoBehaviour {
     public MatchManager matchManager;
     public ScoreManager scoreManager;
 
-    public Candy HandlePowerUpCreation(List<Candy> matches) {
+    public Fossil HandlePowerUpCreation(List<Fossil> matches) {
         if (matches == null || matches.Count < 4) return null;
 
-        // Determine the central candy of the match based on swap pair or the center of the match list
-        Candy centralCandy = GetCentralCandy(matches);
+        // Determine the central fossil of the match based on swap pair or the center of the match list
+        Fossil centralFossil = GetCentralFossil(matches);
 
         // Create appropriate power-ups based on the match
         if (IsDNA(matches)) {
-            CreatePowerUp(centralCandy, PowerUpType.DNA);
+            CreatePowerUp(centralFossil, PowerUpType.DNA);
             scoreManager.CalculateScore(matches, PowerUpType.DNA);
             Debug.Log("Power-Up Created: DNA");
-            return centralCandy;
+            return centralFossil;
         }
 
         if (matches.Count == 4) {
-            CreatePowerUp(centralCandy, PowerUpType.LineClear);
+            CreatePowerUp(centralFossil, PowerUpType.LineClear);
             scoreManager.CalculateScore(matches, PowerUpType.LineClear);
             Debug.Log("Power-Up Created: Line Clear");
-            return centralCandy;
+            return centralFossil;
         } 
 
         if (matches.Count >= 5) {
-            CreatePowerUp(centralCandy, PowerUpType.Bomb);
+            CreatePowerUp(centralFossil, PowerUpType.Bomb);
             scoreManager.CalculateScore(matches, PowerUpType.Bomb);
             Debug.Log("Power-Up Created: Bomb");
-            return centralCandy;
+            return centralFossil;
         }
 
         return null;
     }
 
-    private Candy GetCentralCandy(List<Candy> matches) {
-        Candy centralCandy = null;
+    private Fossil GetCentralFossil(List<Fossil> matches) {
+        Fossil centralFossil = null;
 
-        // Check if the swapped candies are part of the matches, if so use one of them as central candy
+        // Check if the swapped fossils are part of the matches, if so use one of them as central fossil
         if (board.swapPair[0] != null && matches.Contains(board.swapPair[0])) {
-            centralCandy = board.swapPair[0];
+            centralFossil = board.swapPair[0];
             board.swapPair[0] = null;
-            Debug.Log("Central Candy from Swap: " + centralCandy.name);
+            Debug.Log("Central Fossil from Swap: " + centralFossil.name);
         }
         else if (board.swapPair[1] != null && matches.Contains(board.swapPair[1])) {
-            centralCandy = board.swapPair[1];
+            centralFossil = board.swapPair[1];
             board.swapPair[1] = null;
-            Debug.Log("Central Candy from Swap: " + centralCandy.name);
+            Debug.Log("Central Fossil from Swap: " + centralFossil.name);
         }
         else {
-            // If no swapped candy is the central candy, pick the middle one from the match
-            centralCandy = matches[matches.Count / 2];
-            Debug.Log("Center Candy: " + centralCandy.name);
+            // If no swapped fossil is the central fossil, pick the middle one from the match
+            centralFossil = matches[matches.Count / 2];
+            Debug.Log("Center Fossil: " + centralFossil.name);
         }
 
-        return centralCandy;
+        return centralFossil;
     }
 
-    private bool IsDNA(List<Candy> matches) {
+    private bool IsDNA(List<Fossil> matches) {
         if(matches.Count != 5) return false;
 
         int startX = matches[0].x;
@@ -74,92 +74,92 @@ public class PowerUpManager : MonoBehaviour {
         return sameRow || sameColumn;
     }
 
-    private void CreatePowerUp(Candy candy, PowerUpType powerUpType) {
-        // Assign the power-up type to the candy
-        candy.SetPowerUp(powerUpType);
+    private void CreatePowerUp(Fossil fossil, PowerUpType powerUpType) {
+        // Assign the power-up type to the fossil
+        fossil.SetPowerUp(powerUpType);
 
         // Provide visual feedback for the power-up (e.g., color change)
-        candy.GetComponent<SpriteRenderer>().color = powerUpType == PowerUpType.LineClear ? Color.blue : Color.red;
+        fossil.GetComponent<SpriteRenderer>().color = powerUpType == PowerUpType.LineClear ? Color.blue : Color.red;
     }
 
-    public void ActivatePowerUp(Candy candy) {
-        if (candy.powerUpType == PowerUpType.None) return;
-        switch (candy.powerUpType) {
+    public void ActivatePowerUp(Fossil fossil) {
+        if (fossil.powerUpType == PowerUpType.None) return;
+        switch (fossil.powerUpType) {
             case PowerUpType.LineClear:
-                ClearLine(candy);
+                ClearLine(fossil);
                 break;
             case PowerUpType.Bomb:
-                ExplodeAround(candy);
+                ExplodeAround(fossil);
                 break;
             case PowerUpType.DNA:
-                ActivateDNA(candy);
+                ActivateDNA(fossil);
                 break;
         }
     }
 
-    private void ClearLine(Candy candy) {
-        int x = candy.x;
-        int y = candy.y;
+    private void ClearLine(Fossil fossil) {
+        int x = fossil.x;
+        int y = fossil.y;
 
-        List<Candy> clearedCandies = new List<Candy>();
+        List<Fossil> clearedFossils = new List<Fossil>();
 
         // Clear the row
         for (int i = 0; i < board.width; i++) {
-            clearedCandies.Add(board.candies[i, y]);
-            ClearCandy(i, y);
+            clearedFossils.Add(board.fossils[i, y]);
+            ClearFossil(i, y);
         }
 
         // Clear the column
         for (int j = 0; j < board.height; j++) {
-            clearedCandies.Add(board.candies[x, j]);
-            ClearCandy(x, j);
+            clearedFossils.Add(board.fossils[x, j]);
+            ClearFossil(x, j);
         }
 
-        scoreManager.AddScoreForPowerUpActivation(PowerUpType.LineClear, clearedCandies.Count);
+        scoreManager.AddScoreForPowerUpActivation(PowerUpType.LineClear, clearedFossils.Count);
         Debug.Log($"LineClear activated at ({x}, {y})");
     }
 
-    private void ExplodeAround(Candy candy) {
-        int x = candy.x;
-        int y = candy.y;
+    private void ExplodeAround(Fossil fossil) {
+        int x = fossil.x;
+        int y = fossil.y;
 
-        List<Candy> clearedCandies = new List<Candy>();
+        List<Fossil> clearedFossils = new List<Fossil>();
 
         for (int i = x - 2; i <= x + 2; i++) {
             for (int j = y - 2; j <= y + 2; j++) {
                 if (board.IsInBoard(i, j)) {
-                    clearedCandies.Add(board.candies[i, j]);
-                    ClearCandy(i, j);
+                    clearedFossils.Add(board.fossils[i, j]);
+                    ClearFossil(i, j);
                 }
             }
         }
 
-        scoreManager.AddScoreForPowerUpActivation(PowerUpType.Bomb, clearedCandies.Count);
+        scoreManager.AddScoreForPowerUpActivation(PowerUpType.Bomb, clearedFossils.Count);
         Debug.Log($"Bomb activated at ({x}, {y})");
     }
 
-    private void ActivateDNA(Candy candy) {
-        List<Candy> clearedCandies = new List<Candy>();
+    private void ActivateDNA(Fossil fossil) {
+        List<Fossil> clearedFossils = new List<Fossil>();
 
-        // Clear all candies of the same type as the DNA candy
-        foreach (Candy boardCandy in board.candies) {
-            if (boardCandy != null && boardCandy.type == candy.type) {
-                clearedCandies.Add(boardCandy);
-                ClearCandy(boardCandy.x, boardCandy.y);
+        // Clear all fossils of the same type as the DNA fossil
+        foreach (Fossil boardFossil in board.fossils) {
+            if (boardFossil != null && boardFossil.type == fossil.type) {
+                clearedFossils.Add(boardFossil);
+                ClearFossil(boardFossil.x, boardFossil.y);
             }
         }
 
-        scoreManager.AddScoreForPowerUpActivation(PowerUpType.DNA, clearedCandies.Count);
-        Debug.Log($"DNA activated: Cleared {clearedCandies.Count} candies of type {candy.type}");
+        scoreManager.AddScoreForPowerUpActivation(PowerUpType.DNA, clearedFossils.Count);
+        Debug.Log($"DNA activated: Cleared {clearedFossils.Count} fossils of type {fossil.type}");
     }
-    
-    private void ClearCandy(int x, int y) {
-        Candy targetCandy = board.candies[x, y];
 
-        if (targetCandy != null) {
-            board.candies[x, y] = null;  // Remove candy from the board
-            Destroy(targetCandy.gameObject);  // Destroy the candy object
-            Debug.Log($"Cleared candy at ({x}, {y})");
+    private void ClearFossil(int x, int y) {
+        Fossil targetFossil = board.fossils[x, y];
+
+        if (targetFossil != null) {
+            board.fossils[x, y] = null;  // Remove fossil from the board
+            Destroy(targetFossil.gameObject);  // Destroy the fossil object
+            Debug.Log($"Cleared fossil at ({x}, {y})");
         }
     }
 }

@@ -8,45 +8,45 @@ public class MatchManager : MonoBehaviour{
     public ScoreManager scoreManager;
     public PowerUpManager powerUpManager;
 
-    public List<Candy> GetMatches(Candy candy) {
-        HashSet<Candy> matchedCandies = new HashSet<Candy>();
+    public List<Fossil> GetMatches(Fossil fossil) {
+        HashSet<Fossil> matchedFossils = new HashSet<Fossil>();
 
         // Get horizontal matches
-        List<Candy> horizontalMatches = GetHorizontalMatches(candy);
+        List<Fossil> horizontalMatches = GetHorizontalMatches(fossil);
         if (horizontalMatches.Count >= 3) {
-            foreach (Candy c in horizontalMatches) {
-                matchedCandies.Add(c);
+            foreach (Fossil c in horizontalMatches) {
+                matchedFossils.Add(c);
             }
         }
 
         // Get vertical matches
-        List<Candy> verticalMatches = GetVerticalMatches(candy);
+        List<Fossil> verticalMatches = GetVerticalMatches(fossil);
         if (verticalMatches.Count >= 3) {
-            foreach (Candy c in verticalMatches) {
-                matchedCandies.Add(c);
+            foreach (Fossil c in verticalMatches) {
+                matchedFossils.Add(c);
             }
         }
 
         // Return the combined list of matches
-        return matchedCandies.Count >= 3 ? new List<Candy>(matchedCandies) : null;
+        return matchedFossils.Count >= 3 ? new List<Fossil>(matchedFossils) : null;
     }
 
-    private List<Candy> GetHorizontalMatches(Candy candy) {
-        List<Candy> matches = new List<Candy> { candy };
+    private List<Fossil> GetHorizontalMatches(Fossil fossil) {
+        List<Fossil> matches = new List<Fossil> { fossil };
 
         // Check left
-        for (int i = candy.x - 1; i >= 0; i--) {
-            if (board.candies[i, candy.y] != null && board.candies[i, candy.y].type == candy.type) {
-                matches.Add(board.candies[i, candy.y]);
+        for (int i = fossil.x - 1; i >= 0; i--) {
+            if (board.fossils[i, fossil.y] != null && board.fossils[i, fossil.y].type == fossil.type) {
+                matches.Add(board.fossils[i, fossil.y]);
             } else {
                 break;
             }
         }
 
         // Check right
-        for (int i = candy.x + 1; i < board.width; i++) {
-            if (board.candies[i, candy.y] != null && board.candies[i, candy.y].type == candy.type) {
-                matches.Add(board.candies[i, candy.y]);
+        for (int i = fossil.x + 1; i < board.width; i++) {
+            if (board.fossils[i, fossil.y] != null && board.fossils[i, fossil.y].type == fossil.type) {
+                matches.Add(board.fossils[i, fossil.y]);
             } else {
                 break;
             }
@@ -55,22 +55,22 @@ public class MatchManager : MonoBehaviour{
         return matches;
     }
 
-    private List<Candy> GetVerticalMatches(Candy candy) {
-        List<Candy> matches = new List<Candy> { candy };
+    private List<Fossil> GetVerticalMatches(Fossil fossil) {
+        List<Fossil> matches = new List<Fossil> { fossil };
 
         // Check down
-        for (int i = candy.y - 1; i >= 0; i--) {
-            if (board.candies[candy.x, i] != null && board.candies[candy.x, i].type == candy.type) {
-                matches.Add(board.candies[candy.x, i]);
+        for (int i = fossil.y - 1; i >= 0; i--) {
+            if (board.fossils[fossil.x, i] != null && board.fossils[fossil.x, i].type == fossil.type) {
+                matches.Add(board.fossils[fossil.x, i]);
             } else {
                 break;
             }
         }
 
         // Check up
-        for (int i = candy.y + 1; i < board.height; i++) {
-            if (board.candies[candy.x, i] != null && board.candies[candy.x, i].type == candy.type) {
-                matches.Add(board.candies[candy.x, i]);
+        for (int i = fossil.y + 1; i < board.height; i++) {
+            if (board.fossils[fossil.x, i] != null && board.fossils[fossil.x, i].type == fossil.type) {
+                matches.Add(board.fossils[fossil.x, i]);
             } else {
                 break;
             }
@@ -79,29 +79,29 @@ public class MatchManager : MonoBehaviour{
         return matches;
     }
 
-    public void DestroyMatches(List<Candy> matches) {
+    public void DestroyMatches(List<Fossil> matches) {
         if (matches == null || matches.Count < 3) return;
 
         AudioManager.Instance.PlaySound(AudioManager.Instance.matchSound); // Play match sound
         scoreManager.CalculateScore(matches);
 
-        Candy powerUpCandy = null;
+        Fossil powerUpFossil = null;
 
         if (matches.Count >= 4) {
-            powerUpCandy = powerUpManager.HandlePowerUpCreation(matches); // Create a LineClear power-up
+            powerUpFossil = powerUpManager.HandlePowerUpCreation(matches); // Create a LineClear power-up
         }
 
-        foreach (Candy candy in matches) {
-            if (candy == powerUpCandy) {
-                continue; // Skip destroying the central candy
+        foreach (Fossil fossil in matches) {
+            if (fossil == powerUpFossil) {
+                continue; // Skip destroying the central fossil
             }
 
-            if (candy.powerUpType != PowerUpType.None) {
-                powerUpManager.ActivatePowerUp(candy); // Activate any other power-ups
+            if (fossil.powerUpType != PowerUpType.None) {
+                powerUpManager.ActivatePowerUp(fossil); // Activate any other power-ups
             }
 
-            board.candies[candy.x, candy.y] = null; // Clear the candy from the board
-            Destroy(candy.gameObject); // Destroy the candy object
+            board.fossils[fossil.x, fossil.y] = null; // Clear the fossil from the board
+            Destroy(fossil.gameObject); // Destroy the fossil object
         }
     }
 }

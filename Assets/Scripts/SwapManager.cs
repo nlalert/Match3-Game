@@ -6,20 +6,20 @@ public class SwapManager : MonoBehaviour {
     public BoardManager board;
     public MatchManager matchManager;
 
-    public void CheckAndSwap(Candy candy1, Candy candy2){
-        if (AreAdjacent(candy1, candy2)){
-            StartCoroutine(Swap(candy1, candy2));
+    public void CheckAndSwap(Fossil fossil1, Fossil fossil2){
+        if (AreAdjacent(fossil1, fossil2)){
+            StartCoroutine(Swap(fossil1, fossil2));
         }
     }
 
-    public IEnumerator Swap(Candy candy1, Candy candy2){
+    public IEnumerator Swap(Fossil fossil1, Fossil fossil2){
         board.animationManager.isAnimating = true;
 
         // Perform the initial swap animation
-        yield return StartCoroutine(board.animationManager.AnimateSwap(candy1, candy2));
+        yield return StartCoroutine(board.animationManager.AnimateSwap(fossil1, fossil2));
 
         // Check for matches after swapping
-        if (TryHandleMatches(candy1, candy2)){
+        if (TryHandleMatches(fossil1, fossil2)){
             if (!board.moveManager.UseMove()){
                 Debug.Log("No moves remaining!");
                 board.moveManager.GameOver();
@@ -29,32 +29,32 @@ public class SwapManager : MonoBehaviour {
         }
         else{
             Debug.Log("No Match: Swapping back.");
-            yield return StartCoroutine(board.animationManager.AnimateSwap(candy1, candy2));
+            yield return StartCoroutine(board.animationManager.AnimateSwap(fossil1, fossil2));
         }
 
         board.animationManager.isAnimating = false;
     }
 
-    public bool AreAdjacent(Candy candy1, Candy candy2){
-        int deltaX = Mathf.Abs(candy1.x - candy2.x);
-        int deltaY = Mathf.Abs(candy1.y - candy2.y);
+    public bool AreAdjacent(Fossil fossil1, Fossil fossil2){
+        int deltaX = Mathf.Abs(fossil1.x - fossil2.x);
+        int deltaY = Mathf.Abs(fossil1.y - fossil2.y);
         return (deltaX == 1 && deltaY == 0) || (deltaX == 0 && deltaY == 1);
     }
 
-    public void CompleteSwap(Candy candy1, Candy candy2){
-        // Swap the candies in the board array
-        board.candies[candy1.x, candy1.y] = candy2;
-        board.candies[candy2.x, candy2.y] = candy1;
+    public void CompleteSwap(Fossil fossil1, Fossil fossil2){
+        // Swap the fossils in the board array
+        board.fossils[fossil1.x, fossil1.y] = fossil2;
+        board.fossils[fossil2.x, fossil2.y] = fossil1;
 
-        // Update candy positions
-        (candy1.x, candy1.y, candy2.x, candy2.y) = (candy2.x, candy2.y, candy1.x, candy1.y);
-        candy1.UpdatePosition(candy1.x, candy1.y);
-        candy2.UpdatePosition(candy2.x, candy2.y);
+        // Update fossil positions
+        (fossil1.x, fossil1.y, fossil2.x, fossil2.y) = (fossil2.x, fossil2.y, fossil1.x, fossil1.y);
+        fossil1.UpdatePosition(fossil1.x, fossil1.y);
+        fossil2.UpdatePosition(fossil2.x, fossil2.y);
     }
 
-    private bool TryHandleMatches(Candy candy1, Candy candy2){
-        List<Candy> matches1 = matchManager.GetMatches(candy1);
-        List<Candy> matches2 = matchManager.GetMatches(candy2);
+    private bool TryHandleMatches(Fossil fossil1, Fossil fossil2){
+        List<Fossil> matches1 = matchManager.GetMatches(fossil1);
+        List<Fossil> matches2 = matchManager.GetMatches(fossil2);
 
         bool hasMatches = (matches1 != null && matches1.Count >= 3) || (matches2 != null && matches2.Count >= 3);
 
@@ -68,25 +68,25 @@ public class SwapManager : MonoBehaviour {
     }
 
     public IEnumerator FillEmptySpots(){
-        while (TryShiftCandiesDown()){
+        while (TryShiftfossilsDown()){
             yield return new WaitForSeconds(0.1f);
         }
 
-        yield return StartCoroutine(SpawnNewCandies());
+        yield return StartCoroutine(SpawnNewfossils());
         yield return StartCoroutine(HandleChainReactions());
     }
 
-    private bool TryShiftCandiesDown(){
+    private bool TryShiftfossilsDown(){
         bool hasEmptySpots = false;
 
         for (int x = 0; x < board.width; x++){
             for (int y = 1; y < board.height; y++){
-                if (board.candies[x, y] != null && board.candies[x, y - 1] == null){
-                    board.candies[x, y - 1] = board.candies[x, y];
-                    board.candies[x, y] = null;
-                    board.candies[x, y - 1].UpdatePosition(x, y - 1);
+                if (board.fossils[x, y] != null && board.fossils[x, y - 1] == null){
+                    board.fossils[x, y - 1] = board.fossils[x, y];
+                    board.fossils[x, y] = null;
+                    board.fossils[x, y - 1].UpdatePosition(x, y - 1);
 
-                    StartCoroutine(board.animationManager.AnimateCandyFall(board.candies[x, y - 1]));
+                    StartCoroutine(board.animationManager.AnimateFossilFall(board.fossils[x, y - 1]));
                     hasEmptySpots = true;
                 }
             }
@@ -107,8 +107,8 @@ public class SwapManager : MonoBehaviour {
 
         for (int x = 0; x < board.width; x++){
             for (int y = 0; y < board.height; y++){
-                if (board.candies[x, y] != null){
-                    List<Candy> matches = matchManager.GetMatches(board.candies[x, y]);
+                if (board.fossils[x, y] != null){
+                    List<Fossil> matches = matchManager.GetMatches(board.fossils[x, y]);
                     if (matches != null && matches.Count >= 3){
                         matchManager.DestroyMatches(matches);
                         foundNewMatches = true;
@@ -120,11 +120,11 @@ public class SwapManager : MonoBehaviour {
         return foundNewMatches;
     }
 
-    private IEnumerator SpawnNewCandies(){
+    private IEnumerator SpawnNewfossils(){
         for (int x = 0; x < board.width; x++){
             for (int y = board.height - 1; y >= 0; y--){
-                if (board.candies[x, y] == null){
-                    board.candySpawner.SpawnCandy(x, y);
+                if (board.fossils[x, y] == null){
+                    board.fossilSpawner.SpawnFossil(x, y);
                     yield return new WaitForSeconds(0.05f);
                 }
             }

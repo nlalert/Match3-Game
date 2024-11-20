@@ -7,7 +7,7 @@ public enum PowerUpType {
     DNA
 }
 
-public class Candy : MonoBehaviour {
+public class Fossil : MonoBehaviour {
     public int x, y;
     public int type;
     public PowerUpType powerUpType = PowerUpType.None;

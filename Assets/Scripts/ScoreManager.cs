@@ -12,7 +12,7 @@ public class ScoreManager : MonoBehaviour
         UpdateScoreUI();
     }
 
-    public void CalculateScore(List<Candy> matches, PowerUpType powerUpType = PowerUpType.None) {
+    public void CalculateScore(List<Fossil> matches, PowerUpType powerUpType = PowerUpType.None) {
         int matchSize = matches.Count;
         int baseScore = 0;
 
@@ -38,31 +38,31 @@ public class ScoreManager : MonoBehaviour
         // Update total score
         score += baseScore;
 
-        Debug.Log($"Match of {matchSize} candies! Power-Up: {powerUpType}, Base Score: {baseScore}, Total Score: {score}");
+        Debug.Log($"Match of {matchSize} fossils! Power-Up: {powerUpType}, Base Score: {baseScore}, Total Score: {score}");
         UpdateScoreUI();
     }
 
-    public void AddScoreForPowerUpActivation(PowerUpType powerUpType, int candiesCleared) {
-        int baseScorePerCandy = 0;
+    public void AddScoreForPowerUpActivation(PowerUpType powerUpType, int fossilsCleared) {
+        int baseScorePerFossil = 0;
 
         switch (powerUpType) {
             case PowerUpType.LineClear:
-                baseScorePerCandy = 20;
+                baseScorePerFossil = 20;
                 break;
             case PowerUpType.Bomb:
-                baseScorePerCandy = 30;
+                baseScorePerFossil = 30;
                 break;
             case PowerUpType.DNA:
-                baseScorePerCandy = 40; // Higher score per candy cleared by DNA
+                baseScorePerFossil = 40; // Higher score per fossil cleared by DNA
                 break;
         }
 
-        int activationScore = candiesCleared * baseScorePerCandy;
+        int activationScore = fossilsCleared * baseScorePerFossil;
 
         // Update total score
         score += activationScore;
 
-        Debug.Log($"Power-Up Activated ({powerUpType})! Cleared {candiesCleared} candies, Score: {activationScore}, Total Score: {score}");
+        Debug.Log($"Power-Up Activated ({powerUpType})! Cleared {fossilsCleared} fossils, Score: {activationScore}, Total Score: {score}");
         UpdateScoreUI();
     }
 

@@ -416,13 +416,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   width: 15
   height: 20
-  selectedCandy: {fileID: 0}
+  selectedFossil: {fileID: 0}
   swapPair:
   - {fileID: 0}
   - {fileID: 0}
   moveManager: {fileID: 543122440}
   animationManager: {fileID: 1547038065}
-  candySpawner: {fileID: 690768957}
+  fossilSpawner: {fileID: 690768957}
   swapManager: {fileID: 1208020085}
 --- !u!1 &690768955
 GameObject:
@@ -435,7 +435,7 @@ GameObject:
   - component: {fileID: 690768956}
   - component: {fileID: 690768957}
   m_Layer: 0
-  m_Name: CandySpawner
+  m_Name: FossilSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -469,13 +469,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   board: {fileID: 587334633}
-  candyPrefabs:
-  - {fileID: 4378926230417056205, guid: d13c2d00f07dbbb439c442a2f209953f, type: 3}
-  - {fileID: 4378926230417056205, guid: 4237b2c0c03c4574c9792c1826a662a8, type: 3}
-  - {fileID: 4378926230417056205, guid: 500e4bef816eea1438891423a0b7e26d, type: 3}
-  - {fileID: 4378926230417056205, guid: c24b6347a0ebb0d4aae9fdcc125639e3, type: 3}
-  - {fileID: 4378926230417056205, guid: 6024c3b3b3a4ccc4984979a27c7bd511, type: 3}
+  fossilPrefabs:
   - {fileID: 4378926230417056205, guid: a9c573c166b19dc4481af96a04affda1, type: 3}
+  - {fileID: 4378926230417056205, guid: 6024c3b3b3a4ccc4984979a27c7bd511, type: 3}
+  - {fileID: 4378926230417056205, guid: 4237b2c0c03c4574c9792c1826a662a8, type: 3}
+  - {fileID: 4378926230417056205, guid: c24b6347a0ebb0d4aae9fdcc125639e3, type: 3}
+  - {fileID: 4378926230417056205, guid: d13c2d00f07dbbb439c442a2f209953f, type: 3}
+  - {fileID: 4378926230417056205, guid: 500e4bef816eea1438891423a0b7e26d, type: 3}
 --- !u!1 &1000864497
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,7 +9,7 @@ public class InputManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            board.HandleCandyClick(mousePos);
+            board.HandleFossilClick(mousePos);
         }
     }
 }
