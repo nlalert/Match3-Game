@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class AnimationManager : MonoBehaviour {
     public BoardManager board;
+    public bool isAnimating = false;
+
     public IEnumerator AnimateSwap(Candy candy1, Candy candy2, float duration = 0.2f) {
         AudioManager.Instance.PlaySound(AudioManager.Instance.swapSound); // Play swap sound
         Vector3 startPos1 = candy1.transform.position;

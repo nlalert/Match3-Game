@@ -12,7 +12,7 @@ public class SwapManager : MonoBehaviour {
     }
     
     public IEnumerator Swap(Candy candy1, Candy candy2) {
-        board.isAnimating = true;
+        board.animationManager.isAnimating = true;
         yield return StartCoroutine(board.animationManager.AnimateSwap(candy1, candy2));
 
         List<Candy> matches1 = board.matchManager.GetMatches(candy1);
@@ -22,7 +22,7 @@ public class SwapManager : MonoBehaviour {
             Debug.Log("Match found!");
             if (!board.moveManager.UseMove()) {
                 Debug.Log("No moves remaining!");
-                board.GameOver();
+                board.moveManager.GameOver();
             }
             
             if (matches1 != null) board.matchManager.DestroyMatches(matches1);
@@ -36,7 +36,7 @@ public class SwapManager : MonoBehaviour {
             yield return StartCoroutine(board.animationManager.AnimateSwap(candy1, candy2));
         }
 
-        board.isAnimating = false;
+        board.animationManager.isAnimating = false;
     }
 
     public bool AreAdjacent(Candy candy1, Candy candy2) {

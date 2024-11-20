@@ -9,7 +9,6 @@ public class BoardManager : MonoBehaviour
     public int height = 20;
 
     private Candy selectedCandy = null;
-    public bool isAnimating = false;
 
     public ScoreManager scoreManager;
     public MoveManager moveManager;
@@ -23,7 +22,7 @@ public class BoardManager : MonoBehaviour
     }
 
     private void Update() {
-        if (isAnimating) return;
+        if (animationManager.isAnimating) return;
     }
 
     private void InitializeBoard() {
@@ -37,7 +36,7 @@ public class BoardManager : MonoBehaviour
     }
 
     public void HandleCandyClick(Vector3 mousePos){
-        if (isAnimating) return;
+        if (animationManager.isAnimating) return;
         if (!moveManager.HasMoveLeft()) return;
 
         Vector3Int gridPos = GetBoardGridPosition(mousePos);
@@ -55,11 +54,6 @@ public class BoardManager : MonoBehaviour
                 selectedCandy = null;
             }
         }
-    }
-
-    public void GameOver() {
-        AudioManager.Instance.PlaySound(AudioManager.Instance.gameOverSound); // Play game over sound
-        Debug.Log("Game Over! No moves remaining.");
     }
 
     private Vector3Int GetBoardGridPosition(Vector3 worldPosition) {
