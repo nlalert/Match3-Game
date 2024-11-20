@@ -7,6 +7,7 @@ public class BoardManager : MonoBehaviour
     public Fossil[,] fossils;
     public int width = 15;
     public int height = 20;
+    public int hiddenRow = 5;
     public Fossil selectedFossil = null;
     public Fossil[] swapPair = new Fossil[2];
 
@@ -16,21 +17,18 @@ public class BoardManager : MonoBehaviour
     public SwapManager swapManager;
 
     private void Start() {
+        hiddenRow = height;
         InitializeBoard();
     }
 
-    private void Update() {
-        if (animationManager.isAnimating) return;
-    }
-
     private void InitializeBoard() {
-        fossils = new Fossil[width, height];
+        fossils = new Fossil[width, height + hiddenRow];
         FillBoardWithFossils();
     }
 
     private void FillBoardWithFossils() {
         for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
+            for (int y = 0; y < height + hiddenRow; y++) {
                 fossilSpawner.SpawnFossil(x, y);
             }
         }
@@ -49,12 +47,26 @@ public class BoardManager : MonoBehaviour
 
     private void ProcessFossilSelection(Fossil clickedFossil) {
         if (selectedFossil == null) {
-            selectedFossil = clickedFossil;  // Select the first fossil
+            // Select the first fossil
+            selectedFossil = clickedFossil;
+            ScaleFossil(selectedFossil, 1.2f); // Scale up the selected fossil
         } else {
+            // Deselect the previously selected fossil by resetting its scale
+            ScaleFossil(selectedFossil, 1.0f);
+
+            // Swap with the second fossil
             swapPair[0] = selectedFossil;
             swapPair[1] = clickedFossil;
             swapManager.CheckAndSwap(swapPair[0], swapPair[1]);
-            selectedFossil = null;  // Reset selection after swap
+
+            // Reset selection
+            selectedFossil = null;
+        }
+    }
+
+    private void ScaleFossil(Fossil fossil, float scale) {
+        if (fossil != null) {
+            fossil.transform.localScale = new Vector3(scale, scale, scale);
         }
     }
 

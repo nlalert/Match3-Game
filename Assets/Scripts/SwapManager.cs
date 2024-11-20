@@ -80,7 +80,7 @@ public class SwapManager : MonoBehaviour {
         bool hasEmptySpots = false;
 
         for (int x = 0; x < board.width; x++){
-            for (int y = 1; y < board.height; y++){
+            for (int y = 1; y < board.height + board.hiddenRow; y++){
                 if (board.fossils[x, y] != null && board.fossils[x, y - 1] == null){
                     board.fossils[x, y - 1] = board.fossils[x, y];
                     board.fossils[x, y] = null;
@@ -122,7 +122,7 @@ public class SwapManager : MonoBehaviour {
 
     private IEnumerator SpawnNewfossils(){
         for (int x = 0; x < board.width; x++){
-            for (int y = board.height - 1; y >= 0; y--){
+            for (int y = board.height + board.hiddenRow - 1; y >= 0; y--){
                 if (board.fossils[x, y] == null){
                     board.fossilSpawner.SpawnFossil(x, y);
                     yield return new WaitForSeconds(0.05f);
