@@ -28,7 +28,7 @@ public class SwapManager : MonoBehaviour {
             if (matches1 != null) board.matchManager.DestroyMatches(matches1);
             if (matches2 != null) board.matchManager.DestroyMatches(matches2);
 
-            yield return StartCoroutine(board.FillEmptySpots());
+            yield return StartCoroutine(FillEmptySpots());
 
         }
         else {
@@ -53,5 +53,69 @@ public class SwapManager : MonoBehaviour {
         int tempY = candy1.y;
         candy1.UpdatePosition(candy2.x, candy2.y);
         candy2.UpdatePosition(tempX, tempY);
+    }
+
+    
+    public IEnumerator FillEmptySpots() {
+        bool hasEmptySpots = true;
+
+        while (hasEmptySpots) {
+            hasEmptySpots = false;
+
+            for (int x = 0; x < board.width; x++) {
+                for (int y = 1; y < board.height; y++) { // Start from y=1 (skip the bottom row)
+                    if (board.candies[x, y] != null && board.candies[x, y - 1] == null) {
+                        // Move candy down
+                        board.candies[x, y - 1] = board.candies[x, y];
+                        board.candies[x, y] = null;
+                        board.candies[x, y - 1].UpdatePosition(x, y - 1);
+
+                        StartCoroutine(board.animationManager.AnimateCandyFall(board.candies[x, y - 1]));
+                        hasEmptySpots = true;
+                    }
+                }
+            }
+
+            // Wait for candies to fall before continuing
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        // Spawn new candies at the top
+        yield return StartCoroutine(SpawnNewCandies());
+
+        // Check for new matches and handle chain reactions
+        yield return StartCoroutine(HandleChainReactions());
+    }
+
+    private IEnumerator HandleChainReactions() {
+        bool foundNewMatches = false;
+
+        for (int x = 0; x < board.width; x++) {
+            for (int y = 0; y < board.height; y++) {
+                if (board.candies[x, y] != null) {
+                    List<Candy> matches = board.matchManager.GetMatches(board.candies[x, y]);
+                    if (matches != null && matches.Count >= 3) {
+                        board.matchManager.DestroyMatches(matches);
+                        foundNewMatches = true;
+                    }
+                }
+            }
+        }
+
+        if (foundNewMatches) {
+            yield return new WaitForSeconds(0.2f); // Wait briefly before filling
+            yield return StartCoroutine(FillEmptySpots());
+        }
+    }
+
+    private IEnumerator SpawnNewCandies() {
+        for (int x = 0; x < board.width; x++) {
+            for (int y = board.height - 1; y >= 0; y--) {
+                if (board.candies[x, y] == null) {
+                    board.candySpawner.SpawnCandy(x, y);
+                    yield return new WaitForSeconds(0.05f); // Slight delay for spawning effect
+                }
+            }
+        }
     }
 }
