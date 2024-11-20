@@ -5,54 +5,45 @@ public class CandySpawner : MonoBehaviour {
     public GameObject[] candyPrefabs;
 
     public void SpawnCandy(int x, int y) {
-        int candyType = GetValidCandyType(x, y);
-        GameObject newCandy = InstantiateCandy(x, y, candyType);
-        RegisterCandyToBoard(newCandy, x, y, candyType);
-    }
-
-    private int GetValidCandyType(int x, int y) {
         int randomType;
+
         do {
             randomType = Random.Range(0, candyPrefabs.Length);
         } while (WillMatchIfAdd(x, y, randomType));
 
-        return randomType;
-    }
+        Vector3 position = new Vector3(
+            x - (board.width / 2),
+            y - (board.height / 2),
+            0
+        );
 
-    private GameObject InstantiateCandy(int x, int y, int type) {
-        Vector3 position = CalculateCandyWorldPosition(x, y);
-        GameObject newCandy = Instantiate(candyPrefabs[type], position, Quaternion.identity);
+        GameObject newCandy = Instantiate(candyPrefabs[randomType], position, Quaternion.identity);
         newCandy.transform.SetParent(board.transform);
-        return newCandy;
-    }
 
-    private void RegisterCandyToBoard(GameObject newCandy, int x, int y, int type) {
         Candy candy = newCandy.GetComponent<Candy>();
-        candy.Initialize(x, y, type);
+        candy.Initialize(x, y, randomType);
         board.candies[x, y] = candy;
     }
 
     private bool WillMatchIfAdd(int x, int y, int type) {
-        return MatchesHorizontally(x, y, type) || MatchesVertically(x, y, type);
-    }
+        // Check horizontally
+        if (x >= 2) {
+            if (board.candies[x - 1, y] != null && board.candies[x - 2, y] != null) {
+                if (board.candies[x - 1, y].type == type && board.candies[x - 2, y].type == type) {
+                    return true;
+                }
+            }
+        }
 
-    private bool MatchesHorizontally(int x, int y, int type) {
-        if (x < 2) return false;
+        // Check vertically
+        if (y >= 2) {
+            if (board.candies[x, y - 1] != null && board.candies[x, y - 2] != null) {
+                if (board.candies[x, y - 1].type == type && board.candies[x, y - 2].type == type) {
+                    return true;
+                }
+            }
+        }
 
-        return board.candies[x - 1, y]?.type == type &&
-               board.candies[x - 2, y]?.type == type;
-    }
-
-    private bool MatchesVertically(int x, int y, int type) {
-        if (y < 2) return false;
-
-        return board.candies[x, y - 1]?.type == type &&
-               board.candies[x, y - 2]?.type == type;
-    }
-
-    private Vector3 CalculateCandyWorldPosition(int x, int y) {
-        float offsetX = x - (board.width / 2f);
-        float offsetY = y - (board.height / 2f);
-        return new Vector3(offsetX, offsetY, 0f);
+        return false;
     }
 }
