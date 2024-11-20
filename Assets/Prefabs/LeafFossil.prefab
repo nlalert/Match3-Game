@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: -8188154219459932279}
   - component: {fileID: -5883572360530661138}
   m_Layer: 0
-  m_Name: BlueCandy
+  m_Name: LeafFossil
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 47923fa20b40f1748b2dacf487c1b928, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3c19e762b4659634d842220d36ceb3fe, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -100,3 +100,4 @@ MonoBehaviour:
   x: 0
   y: 0
   type: 0
+  powerUpType: 0

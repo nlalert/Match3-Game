@@ -10,6 +10,8 @@ public class BoardManager : MonoBehaviour
 
     public Candy selectedCandy = null;
 
+    public Candy[] swapPair = new Candy[2];
+
     public MoveManager moveManager;
     public AnimationManager animationManager;
     public CandySpawner candySpawner;
@@ -51,6 +53,8 @@ public class BoardManager : MonoBehaviour
         if (selectedCandy == null) {
             selectedCandy = clickedCandy;
         } else {
+            swapPair[0] = selectedCandy;
+            swapPair[1] = clickedCandy;
             swapManager.CheckAndSwap(selectedCandy, clickedCandy);
             selectedCandy = null;
         }

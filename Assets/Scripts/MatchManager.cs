@@ -87,7 +87,7 @@ public class MatchManager : MonoBehaviour{
 
         Candy powerUpCandy = null;
 
-        if (matches.Count == 4) {
+        if (matches.Count >= 4) {
             powerUpCandy = powerUpManager.HandlePowerUpCreation(matches); // Create a LineClear power-up
         }
 
