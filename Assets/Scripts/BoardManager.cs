@@ -25,7 +25,10 @@ public class BoardManager : MonoBehaviour
 
     private void InitializeBoard() {
         candies = new Candy[width, height];
+        FillBoardWithCandies();
+    }
 
+    private void FillBoardWithCandies() {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 candySpawner.SpawnCandy(x, y);
@@ -34,24 +37,25 @@ public class BoardManager : MonoBehaviour
     }
 
     public void HandleCandyClick(Vector3 mousePos){
-        if (animationManager.isAnimating) return;
-        if (!moveManager.HasMoveLeft()) return;
+        if (animationManager.isAnimating || !moveManager.HasMoveLeft()) return;
 
         Vector2Int gridPos = GetBoardGridPosition(mousePos);
 
-        if (IsInBoard(gridPos.x, gridPos.y)) {
-            Candy clickedCandy = candies[gridPos.x, gridPos.y];
-
-            if (selectedCandy == null){
-                selectedCandy = clickedCandy;
-            }
-            else{
-                swapManager.CheckAndSwap(selectedCandy, clickedCandy);
-                selectedCandy = null;
-            }
-        }
+        if (!IsInBoard(gridPos.x, gridPos.y)) return;
+        
+        Candy clickedCandy = candies[gridPos.x, gridPos.y];
+        ProcessCandySelection(clickedCandy);
     }
 
+    private void ProcessCandySelection(Candy clickedCandy) {
+        if (selectedCandy == null) {
+            selectedCandy = clickedCandy;
+        } else {
+            swapManager.CheckAndSwap(selectedCandy, clickedCandy);
+            selectedCandy = null;
+        }
+    }
+    
     private Vector2Int GetBoardGridPosition(Vector3 worldPosition) {
         int x = Mathf.RoundToInt(worldPosition.x + (width / 2));
         int y = Mathf.RoundToInt(worldPosition.y + (height / 2));
