@@ -6,6 +6,7 @@ public class MatchManager : MonoBehaviour{
 
     public BoardManager board;
     public ScoreManager scoreManager;
+    public PowerUpManager powerUpManager;
 
     public List<Candy> GetMatches(Candy candy) {
         HashSet<Candy> matchedCandies = new HashSet<Candy>();
@@ -78,15 +79,29 @@ public class MatchManager : MonoBehaviour{
         return matches;
     }
 
-    public void DestroyMatches(List<Candy> matches)
-    {
+    public void DestroyMatches(List<Candy> matches) {
+        if (matches == null || matches.Count < 3) return;
+
         AudioManager.Instance.PlaySound(AudioManager.Instance.matchSound); // Play match sound
         scoreManager.CalculateScore(matches);
 
-        foreach (Candy candy in matches)
-        {
-            board.candies[candy.x, candy.y] = null; 
-            Destroy(candy.gameObject);    
+        Candy powerUpCandy = null;
+
+        if (matches.Count == 4) {
+            powerUpCandy = powerUpManager.HandlePowerUpCreation(matches); // Create a LineClear power-up
+        }
+
+        foreach (Candy candy in matches) {
+            if (candy == powerUpCandy) {
+                continue; // Skip destroying the central candy
+            }
+
+            if (candy.powerUpType != PowerUpType.None) {
+                powerUpManager.ActivatePowerUp(candy); // Activate any other power-ups
+            }
+
+            board.candies[candy.x, candy.y] = null; // Clear the candy from the board
+            Destroy(candy.gameObject); // Destroy the candy object
         }
     }
 }

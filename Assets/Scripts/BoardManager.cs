@@ -8,7 +8,7 @@ public class BoardManager : MonoBehaviour
     public int width = 15;
     public int height = 20;
 
-    private Candy selectedCandy = null;
+    public Candy selectedCandy = null;
 
     public MoveManager moveManager;
     public AnimationManager animationManager;
