@@ -286,6 +286,7 @@ GameObject:
   - component: {fileID: 485024344}
   - component: {fileID: 485024343}
   - component: {fileID: 485024342}
+  - component: {fileID: 485024346}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -349,6 +350,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &485024346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 485024341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e7c94bc63cf5cf42a4b48e33eb08365, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  swapSound: {fileID: 8300000, guid: 15bb06965d040cd469dc0dacacd922a4, type: 3}
+  matchSound: {fileID: 0}
+  fallSound: {fileID: 0}
+  gameOverSound: {fileID: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -410,7 +427,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 14
+  orthographic size: 11
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -451,6 +468,7 @@ GameObject:
   m_Component:
   - component: {fileID: 587334632}
   - component: {fileID: 587334633}
+  - component: {fileID: 587334634}
   m_Layer: 0
   m_Name: PlayBoard
   m_TagString: Untagged
@@ -498,6 +516,20 @@ MonoBehaviour:
   height: 20
   scoreManager: {fileID: 485024342}
   moveManager: {fileID: 485024343}
+  matchManager: {fileID: 587334634}
+--- !u!114 &587334634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 587334630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd53a73961d9cd4458501992bec7ed2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  board: {fileID: 587334633}
 --- !u!1 &1222913216
 GameObject:
   m_ObjectHideFlags: 0

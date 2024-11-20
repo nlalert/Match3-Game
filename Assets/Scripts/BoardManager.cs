@@ -14,6 +14,7 @@ public class BoardManager : MonoBehaviour
 
     public ScoreManager scoreManager;
     public MoveManager moveManager;
+    public MatchManager matchManager;
 
     private void Start() {
         InitializeBoard();
@@ -102,8 +103,8 @@ public class BoardManager : MonoBehaviour
         isAnimating = true;
         yield return StartCoroutine(AnimateSwap(candy1, candy2));
 
-        List<Candy> matches1 = GetMatches(candy1);
-        List<Candy> matches2 = GetMatches(candy2);
+        List<Candy> matches1 = matchManager.GetMatches(candy1);
+        List<Candy> matches2 = matchManager.GetMatches(candy2);
 
         if ((matches1 != null && matches1.Count >= 3) || (matches2 != null && matches2.Count >= 3)) {
             Debug.Log("Match found!");
@@ -112,8 +113,8 @@ public class BoardManager : MonoBehaviour
                 GameOver();
             }
             
-            if (matches1 != null) DestroyMatches(matches1);
-            if (matches2 != null) DestroyMatches(matches2);
+            if (matches1 != null) matchManager.DestroyMatches(matches1);
+            if (matches2 != null) matchManager.DestroyMatches(matches2);
 
             yield return StartCoroutine(FillEmptySpots());
 
@@ -127,6 +128,7 @@ public class BoardManager : MonoBehaviour
     }
 
     private void GameOver() {
+        AudioManager.Instance.PlaySound(AudioManager.Instance.gameOverSound); // Play game over sound
         Debug.Log("Game Over! No moves remaining.");
     }
 
@@ -147,6 +149,7 @@ public class BoardManager : MonoBehaviour
     }
 
     private IEnumerator AnimateSwap(Candy candy1, Candy candy2, float duration = 0.2f) {
+        AudioManager.Instance.PlaySound(AudioManager.Instance.swapSound); // Play swap sound
         Vector3 startPos1 = candy1.transform.position;
         Vector3 startPos2 = candy2.transform.position;
 
@@ -174,70 +177,6 @@ public class BoardManager : MonoBehaviour
         int tempY = candy1.y;
         candy1.UpdatePosition(candy2.x, candy2.y);
         candy2.UpdatePosition(tempX, tempY);
-    }
-
-    private List<Candy> GetMatches(Candy candy) {
-        HashSet<Candy> matchedCandies = new HashSet<Candy>();
-
-        // Check horizontal matches
-        List<Candy> horizontalMatches = new List<Candy>();
-        horizontalMatches.Add(candy);
-        for (int i = candy.x - 1; i >= 0; i--) {
-            if (candies[i, candy.y] != null && candies[i, candy.y].type == candy.type) {
-                horizontalMatches.Add(candies[i, candy.y]);
-            } else {
-                break;
-            }
-        }
-        for (int i = candy.x + 1; i < width; i++) {
-            if (candies[i, candy.y] != null && candies[i, candy.y].type == candy.type) {
-                horizontalMatches.Add(candies[i, candy.y]);
-            } else {
-                break;
-            }
-        }
-        if (horizontalMatches.Count >= 3) {
-            foreach (Candy c in horizontalMatches) {
-                matchedCandies.Add(c);
-            }
-        }
-
-        // Check vertical matches
-        List<Candy> verticalMatches = new List<Candy>();
-        verticalMatches.Add(candy);
-        for (int i = candy.y - 1; i >= 0; i--) {
-            if (candies[candy.x, i] != null && candies[candy.x, i].type == candy.type) {
-                verticalMatches.Add(candies[candy.x, i]);
-            } else {
-                break;
-            }
-        }
-        for (int i = candy.y + 1; i < height; i++) {
-            if (candies[candy.x, i] != null && candies[candy.x, i].type == candy.type) {
-                verticalMatches.Add(candies[candy.x, i]);
-            } else {
-                break;
-            }
-        }
-        if (verticalMatches.Count >= 3) {
-            foreach (Candy c in verticalMatches) {
-                matchedCandies.Add(c);
-            }
-        }
-
-        // Return the combined list of matches
-        return matchedCandies.Count >= 3 ? new List<Candy>(matchedCandies) : null;
-    }
-
-    private void DestroyMatches(List<Candy> matches)
-    {
-        scoreManager.CalculateScore(matches);
-
-        foreach (Candy candy in matches)
-        {
-            candies[candy.x, candy.y] = null; 
-            Destroy(candy.gameObject);    
-        }
     }
 
     private IEnumerator FillEmptySpots() {
@@ -277,9 +216,9 @@ public class BoardManager : MonoBehaviour
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 if (candies[x, y] != null) {
-                    List<Candy> matches = GetMatches(candies[x, y]);
+                    List<Candy> matches = matchManager.GetMatches(candies[x, y]);
                     if (matches != null && matches.Count >= 3) {
-                        DestroyMatches(matches);
+                        matchManager.DestroyMatches(matches);
                         foundNewMatches = true;
                     }
                 }
@@ -293,6 +232,7 @@ public class BoardManager : MonoBehaviour
     }
 
     private IEnumerator AnimateCandyFall(Candy candy, float duration = 0.2f) {
+        AudioManager.Instance.PlaySound(AudioManager.Instance.fallSound); // Play fall sound
         Vector3 targetPosition = new Vector3(
             candy.x - (width / 2),
             candy.y - (height / 2),
