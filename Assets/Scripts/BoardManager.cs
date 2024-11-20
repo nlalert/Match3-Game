@@ -9,7 +9,6 @@ public class BoardManager : MonoBehaviour
     public int height = 20;
 
     public Candy selectedCandy = null;
-
     public Candy[] swapPair = new Candy[2];
 
     public MoveManager moveManager;
@@ -38,35 +37,35 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    public void HandleCandyClick(Vector3 mousePos){
+    public void HandleCandyClick(Vector3 mousePos) {
         if (animationManager.isAnimating || !moveManager.HasMoveLeft()) return;
 
         Vector2Int gridPos = GetBoardGridPosition(mousePos);
 
         if (!IsInBoard(gridPos.x, gridPos.y)) return;
-        
+
         Candy clickedCandy = candies[gridPos.x, gridPos.y];
         ProcessCandySelection(clickedCandy);
     }
 
     private void ProcessCandySelection(Candy clickedCandy) {
         if (selectedCandy == null) {
-            selectedCandy = clickedCandy;
+            selectedCandy = clickedCandy;  // Select the first candy
         } else {
             swapPair[0] = selectedCandy;
             swapPair[1] = clickedCandy;
-            swapManager.CheckAndSwap(selectedCandy, clickedCandy);
-            selectedCandy = null;
+            swapManager.CheckAndSwap(swapPair[0], swapPair[1]);
+            selectedCandy = null;  // Reset selection after swap
         }
     }
-    
+
     private Vector2Int GetBoardGridPosition(Vector3 worldPosition) {
         int x = Mathf.RoundToInt(worldPosition.x + (width / 2));
         int y = Mathf.RoundToInt(worldPosition.y + (height / 2));
         return new Vector2Int(x, y);
     }
 
-    private bool IsInBoard(int x, int y) {
+    public bool IsInBoard(int x, int y) {
         return x >= 0 && x < width && y >= 0 && y < height;
     }
 }

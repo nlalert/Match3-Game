@@ -12,9 +12,33 @@ public class ScoreManager : MonoBehaviour
         UpdateScoreUI();
     }
 
-    public void CalculateScore(List<Candy> matches){
-        int points = matches.Count * 10;
-        score += points;
+    public void CalculateScore(List<Candy> matches, PowerUpType powerUpType = PowerUpType.None){
+        int matchSize = matches.Count;
+        int baseScore = 0;
+        
+        // Base score for matches
+        if (powerUpType == PowerUpType.None){
+            baseScore += matchSize * 10;
+        } else{
+            int powerUpBonus = powerUpType == PowerUpType.LineClear ? 50 : 100;
+            baseScore += powerUpBonus;
+        }
+
+        // Update total score
+        score += baseScore;
+
+        Debug.Log($"Match of {matchSize} candies! Base Score: {baseScore}, Total Score: {score}");
+        UpdateScoreUI();
+    }
+
+    public void AddScoreForPowerUpActivation(PowerUpType powerUpType, int candiesCleared){
+        int baseScorePerCandy = powerUpType == PowerUpType.LineClear ? 20 : 30;
+        int activationScore = candiesCleared * baseScorePerCandy;
+
+        // Update total score
+        score += activationScore;
+
+        Debug.Log($"Power-Up Activated ({powerUpType})! Cleared {candiesCleared} candies, Score: {activationScore}, Total Score: {score}");
         UpdateScoreUI();
     }
 
