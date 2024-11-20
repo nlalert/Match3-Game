@@ -5,6 +5,7 @@ using UnityEngine;
 public class MatchManager : MonoBehaviour{
 
     public BoardManager board;
+    public ScoreManager scoreManager;
 
     public List<Candy> GetMatches(Candy candy) {
         HashSet<Candy> matchedCandies = new HashSet<Candy>();
@@ -80,7 +81,7 @@ public class MatchManager : MonoBehaviour{
     public void DestroyMatches(List<Candy> matches)
     {
         AudioManager.Instance.PlaySound(AudioManager.Instance.matchSound); // Play match sound
-        board.scoreManager.CalculateScore(matches);
+        scoreManager.CalculateScore(matches);
 
         foreach (Candy candy in matches)
         {

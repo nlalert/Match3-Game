@@ -10,9 +10,7 @@ public class BoardManager : MonoBehaviour
 
     private Candy selectedCandy = null;
 
-    public ScoreManager scoreManager;
     public MoveManager moveManager;
-    public MatchManager matchManager;
     public AnimationManager animationManager;
     public CandySpawner candySpawner;
     public SwapManager swapManager;
@@ -39,27 +37,25 @@ public class BoardManager : MonoBehaviour
         if (animationManager.isAnimating) return;
         if (!moveManager.HasMoveLeft()) return;
 
-        Vector3Int gridPos = GetBoardGridPosition(mousePos);
+        Vector2Int gridPos = GetBoardGridPosition(mousePos);
 
         if (IsInBoard(gridPos.x, gridPos.y)) {
             Candy clickedCandy = candies[gridPos.x, gridPos.y];
 
-            if (selectedCandy == null)
-            {
+            if (selectedCandy == null){
                 selectedCandy = clickedCandy;
             }
-            else
-            {
+            else{
                 swapManager.CheckAndSwap(selectedCandy, clickedCandy);
                 selectedCandy = null;
             }
         }
     }
 
-    private Vector3Int GetBoardGridPosition(Vector3 worldPosition) {
+    private Vector2Int GetBoardGridPosition(Vector3 worldPosition) {
         int x = Mathf.RoundToInt(worldPosition.x + (width / 2));
         int y = Mathf.RoundToInt(worldPosition.y + (height / 2));
-        return new Vector3Int(x, y, 0);
+        return new Vector2Int(x, y);
     }
 
     private bool IsInBoard(int x, int y) {

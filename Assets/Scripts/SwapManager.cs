@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SwapManager : MonoBehaviour {
     public BoardManager board;
+    public MatchManager matchManager;
 
     public void CheckAndSwap(Candy candy1, Candy candy2){
         if (AreAdjacent(candy1, candy2)){
@@ -15,8 +16,8 @@ public class SwapManager : MonoBehaviour {
         board.animationManager.isAnimating = true;
         yield return StartCoroutine(board.animationManager.AnimateSwap(candy1, candy2));
 
-        List<Candy> matches1 = board.matchManager.GetMatches(candy1);
-        List<Candy> matches2 = board.matchManager.GetMatches(candy2);
+        List<Candy> matches1 = matchManager.GetMatches(candy1);
+        List<Candy> matches2 = matchManager.GetMatches(candy2);
 
         if ((matches1 != null && matches1.Count >= 3) || (matches2 != null && matches2.Count >= 3)) {
             Debug.Log("Match found!");
@@ -25,8 +26,8 @@ public class SwapManager : MonoBehaviour {
                 board.moveManager.GameOver();
             }
             
-            if (matches1 != null) board.matchManager.DestroyMatches(matches1);
-            if (matches2 != null) board.matchManager.DestroyMatches(matches2);
+            if (matches1 != null) matchManager.DestroyMatches(matches1);
+            if (matches2 != null) matchManager.DestroyMatches(matches2);
 
             yield return StartCoroutine(FillEmptySpots());
 
@@ -93,9 +94,9 @@ public class SwapManager : MonoBehaviour {
         for (int x = 0; x < board.width; x++) {
             for (int y = 0; y < board.height; y++) {
                 if (board.candies[x, y] != null) {
-                    List<Candy> matches = board.matchManager.GetMatches(board.candies[x, y]);
+                    List<Candy> matches = matchManager.GetMatches(board.candies[x, y]);
                     if (matches != null && matches.Count >= 3) {
-                        board.matchManager.DestroyMatches(matches);
+                        matchManager.DestroyMatches(matches);
                         foundNewMatches = true;
                     }
                 }
