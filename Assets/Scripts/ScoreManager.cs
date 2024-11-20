@@ -1,14 +1,22 @@
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
 
 public class ScoreManager : MonoBehaviour
 {
     public int score { get; private set; }
-    public TextMeshProUGUI scoreText;
+    public Slider scoreSlider; // Slider to represent the score
+    public TextMeshProUGUI scoreText; // Text to display the numeric score
+    public int targetScore = 10000; // Score required to win
 
-    private void Start(){
+    private void Start() {
         score = 0;
+
+        // Configure the slider
+        scoreSlider.maxValue = targetScore;
+        scoreSlider.value = score;
+
         UpdateScoreUI();
     }
 
@@ -40,6 +48,11 @@ public class ScoreManager : MonoBehaviour
 
         Debug.Log($"Match of {matchSize} fossils! Power-Up: {powerUpType}, Base Score: {baseScore}, Total Score: {score}");
         UpdateScoreUI();
+
+        // Check if the target score is reached
+        if (score >= targetScore) {
+            WinGame();
+        }
     }
 
     public void AddScoreForPowerUpActivation(PowerUpType powerUpType, int fossilsCleared) {
@@ -64,9 +77,23 @@ public class ScoreManager : MonoBehaviour
 
         Debug.Log($"Power-Up Activated ({powerUpType})! Cleared {fossilsCleared} fossils, Score: {activationScore}, Total Score: {score}");
         UpdateScoreUI();
+
+        // Check if the target score is reached
+        if (score >= targetScore) {
+            WinGame();
+        }
     }
 
-    private void UpdateScoreUI(){
-        scoreText.text = "Score: " + score;
+    private void UpdateScoreUI() {
+        // Update the slider value
+        scoreSlider.value = score;
+
+        // Update the score text
+        scoreText.text = $"Score: {score} / {targetScore}";
+    }
+
+    private void WinGame() {
+        Debug.Log("Congratulations! You've reached the target score and won the game!");
+        // Implement further win logic, like showing a win screen or stopping gameplay.
     }
 }
