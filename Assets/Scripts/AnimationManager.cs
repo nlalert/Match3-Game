@@ -27,7 +27,7 @@ public class AnimationManager : MonoBehaviour {
         board.swapManager.CompleteSwap(fossil1, fossil2);
     }
 
-    public IEnumerator AnimateFossilFall(Fossil fossil, float duration = 0.2f) {
+    public IEnumerator AnimateFossilFall(Fossil fossil, float duration = 0.15f) {
         AudioManager.Instance.PlaySound(AudioManager.Instance.fallSound); // Play fall sound
 
         Vector3 targetPosition = new Vector3(
@@ -41,10 +41,12 @@ public class AnimationManager : MonoBehaviour {
 
         while (elapsed < duration) {
             elapsed += Time.deltaTime;
-            fossil.transform.position = Vector3.Lerp(startPosition, targetPosition, elapsed / duration);
+            if(fossil != null)
+                fossil.transform.position = Vector3.Lerp(startPosition, targetPosition, elapsed / duration);
             yield return null;
         }
 
-        fossil.transform.position = targetPosition;
+        if(fossil != null)
+            fossil.transform.position = targetPosition;
     }
 }

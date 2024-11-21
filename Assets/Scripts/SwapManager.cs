@@ -69,7 +69,7 @@ public class SwapManager : MonoBehaviour {
 
     public IEnumerator FillEmptySpots(){
         while (TryShiftfossilsDown()){
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.15f);
         }
 
         yield return StartCoroutine(SpawnNewfossils());
@@ -97,7 +97,6 @@ public class SwapManager : MonoBehaviour {
 
     private IEnumerator HandleChainReactions(){
         while (FindAndDestroyMatches()){
-            yield return new WaitForSeconds(0.2f);
             yield return StartCoroutine(FillEmptySpots());
         }
     }
@@ -125,9 +124,9 @@ public class SwapManager : MonoBehaviour {
             for (int y = board.height + board.hiddenRow - 1; y >= 0; y--){
                 if (board.fossils[x, y] == null){
                     board.fossilSpawner.SpawnFossil(x, y);
-                    yield return new WaitForSeconds(0.05f);
                 }
             }
         }
+        yield return null; // Ensure the coroutine completes properly
     }
 }
