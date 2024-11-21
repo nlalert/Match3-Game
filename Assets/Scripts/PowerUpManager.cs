@@ -167,21 +167,72 @@ public class PowerUpManager : MonoBehaviour {
         scoreManager.AddScoreForPowerUpActivation(PowerUpType.Bomb, clearedFossils.Count);
         Debug.Log($"Bomb activated at ({x}, {y})");
     }
-
-    public void ActivateDNA(Fossil fossil) {
+    
+    public void ActivateDNA(Fossil swappedFossil) {
         List<Fossil> clearedFossils = new List<Fossil>();
 
-        // Clear all fossils of the same type as the DNA fossil
-        foreach (Fossil boardFossil in board.fossils) {
-            if (boardFossil != null && boardFossil.type == fossil.type) {
-                clearedFossils.Add(boardFossil);
-                ClearFossil(boardFossil);
+        if (swappedFossil.powerUpType != PowerUpType.None) {
+            if (swappedFossil.powerUpType == PowerUpType.DNA) {
+                clearedFossils = ClearEntireBoard();
+            } else {
+                SpreadPowerUpType(swappedFossil);
             }
+        } else {
+            clearedFossils = ClearMatchingFossils(swappedFossil.type);
         }
 
         scoreManager.AddScoreForPowerUpActivation(PowerUpType.DNA, clearedFossils.Count);
-        Debug.Log($"DNA activated: Cleared {clearedFossils.Count} fossils of type {fossil.type}");
+        Debug.Log($"DNA activated: Cleared {clearedFossils.Count} fossils of type {swappedFossil.type}");
     }
+
+    private List<Fossil> ClearEntireBoard() {
+        List<Fossil> clearedFossils = new List<Fossil>();
+
+        for (int x = 0; x < board.width; x++) {
+            for (int y = 0; y < board.height; y++) {
+                if (board.fossils[x, y] != null) {
+                    clearedFossils.Add(board.fossils[x, y]);
+                    ClearFossil(board.fossils[x, y]);
+                }
+            }
+        }
+
+        Debug.Log("Cleared entire board.");
+        return clearedFossils;
+    }
+
+    private void SpreadPowerUpType(Fossil swappedFossil) {
+        PowerUpType targetPowerUp = swappedFossil.powerUpType;
+
+        for (int x = 0; x < board.width; x++) {
+            for (int y = 0; y < board.height; y++) {
+                Fossil currentFossil = board.fossils[x, y];
+                if (currentFossil != null && currentFossil.type == swappedFossil.type) {
+                    CreatePowerUp(currentFossil, targetPowerUp);
+                    Debug.Log($"Changed fossil at ({x},{y}) to power-up type {targetPowerUp}");
+                }
+            }
+        }
+
+        Debug.Log($"Propagated power-up type {targetPowerUp} to all fossils of type {swappedFossil.type}.");
+    }
+
+    private List<Fossil> ClearMatchingFossils(FossilType targetType) {
+        List<Fossil> clearedFossils = new List<Fossil>();
+
+        for (int x = 0; x < board.width; x++) {
+            for (int y = 0; y < board.height; y++) {
+                if (board.fossils[x, y] != null && board.fossils[x, y].type == targetType) {
+                    clearedFossils.Add(board.fossils[x, y]);
+                    ClearFossil(board.fossils[x, y]);
+                }
+            }
+        }
+
+        Debug.Log($"Cleared fossils of type {targetType}.");
+        return clearedFossils;
+    }
+
 
     private void ClearFossil(Fossil targetFossil) {
         if (targetFossil != null) {
