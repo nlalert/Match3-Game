@@ -15,10 +15,12 @@ public class BoardManager : MonoBehaviour
     public AnimationManager animationManager;
     public FossilSpawner fossilSpawner;
     public SwapManager swapManager;
+    public TimerManager timer;
 
     private void Start() {
         hiddenRow = height;
         InitializeBoard();
+        timer.StartTimer();
     }
 
     private void InitializeBoard() {
