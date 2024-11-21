@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -187,6 +188,62 @@ public class PowerUpManager : MonoBehaviour {
         Debug.Log($"DNA activated: Cleared {clearedFossils.Count} fossils of type {swappedFossil.type}");
     }
 
+    public void ActivateSuperLineClear(Fossil fossil){
+        int x = fossil.x;
+        int y = fossil.y;
+        
+        List<Fossil> clearedFossils = new List<Fossil>();
+
+        // Clear entire row and column
+        for (int i = 0; i < board.width; i++) {
+            if (board.fossils[i, y] != null) {
+                clearedFossils.Add(board.fossils[i, y]);
+                ClearFossil(board.fossils[i, y]);
+            }
+        }
+        for (int j = 0; j < board.height; j++) {
+            if (board.fossils[x, j] != null) {
+                clearedFossils.Add(board.fossils[x, j]);
+                ClearFossil(board.fossils[x, j]);
+            }
+        }
+
+        // Clear diagonals
+        for (int i = -Mathf.Max(board.width, board.height); i <= Mathf.Max(board.width, board.height); i++) {
+            if (board.IsInBoard(x + i, y + i) && board.fossils[x + i, y + i] != null) {
+                clearedFossils.Add(board.fossils[x + i, y + i]);
+                ClearFossil(board.fossils[x + i, y + i]);
+            }
+            if (board.IsInBoard(x + i, y - i) && board.fossils[x + i, y - i] != null) {
+                clearedFossils.Add(board.fossils[x + i, y - i]);
+                ClearFossil(board.fossils[x + i, y - i]);
+            }
+        }
+
+        scoreManager.AddScoreForPowerUpActivation(PowerUpType.LineClear, clearedFossils.Count);
+        Debug.Log($"SuperLineClear activated at ({x}, {y}). Cleared {clearedFossils.Count} fossils.");
+    }
+
+    public void ActivateSuperBomb(Fossil centralFossil) {
+        int x = centralFossil.x;
+        int y = centralFossil.y;
+        int radius = bombRadius * 2;
+
+        List<Fossil> clearedFossils = new List<Fossil>();
+
+        for (int i = x - radius; i <= x + radius; i++) {
+            for (int j = y - radius; j <= y + radius; j++) {
+                if (board.IsInBoard(i, j) && board.fossils[i, j] != null) {
+                    clearedFossils.Add(board.fossils[i, j]);
+                    ClearFossil(board.fossils[i, j]);
+                }
+            }
+        }
+
+        scoreManager.AddScoreForPowerUpActivation(PowerUpType.Bomb, clearedFossils.Count);
+        Debug.Log($"SuperBomb activated at ({x}, {y}). Cleared {clearedFossils.Count} fossils.");
+    }
+    
     private List<Fossil> ClearEntireBoard() {
         List<Fossil> clearedFossils = new List<Fossil>();
 

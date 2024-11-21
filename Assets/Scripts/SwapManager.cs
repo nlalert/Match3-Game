@@ -66,6 +66,16 @@ public class SwapManager : MonoBehaviour {
             return true;
         }
 
+        if (fossil1.powerUpType == PowerUpType.LineClear && fossil2.powerUpType == PowerUpType.LineClear) {
+            matchManager.powerUpManager.ActivateSuperLineClear(fossil1);
+            return true;
+        }
+
+        if (fossil1.powerUpType == PowerUpType.Bomb && fossil2.powerUpType == PowerUpType.Bomb) {
+            matchManager.powerUpManager.ActivateSuperBomb(fossil1);
+            return true;
+        }
+
         List<Fossil> matches1 = matchManager.GetMatches(fossil1);
         List<Fossil> matches2 = matchManager.GetMatches(fossil2);
 
