@@ -56,11 +56,13 @@ public class SwapManager : MonoBehaviour {
     private bool TryHandleMatches(Fossil fossil1, Fossil fossil2) {
         if (fossil1.type == FossilType.DNA) {
             matchManager.powerUpManager.ActivateDNA(fossil2);
+            board.DestroyFossil(fossil1);
             return true;
         }
 
         if (fossil2.type == FossilType.DNA) {
             matchManager.powerUpManager.ActivateDNA(fossil1);
+            board.DestroyFossil(fossil2);
             return true;
         }
 

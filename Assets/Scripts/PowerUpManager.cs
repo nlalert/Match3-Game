@@ -11,6 +11,8 @@ public class PowerUpManager : MonoBehaviour {
     public BombSpriteManager bombSpriteManager;
     public DNASpriteManager dnaSpriteManager;
 
+    private int bombRadius = 2;
+
     public Fossil HandlePowerUpCreation(List<Fossil> matches) {
         if (matches == null || matches.Count < 4) return null;
 
@@ -155,8 +157,8 @@ public class PowerUpManager : MonoBehaviour {
 
         List<Fossil> clearedFossils = new List<Fossil>();
 
-        for (int i = x - 2; i <= x + 2; i++) {
-            for (int j = y - 2; j <= y + 2; j++) {
+        for (int i = x - bombRadius; i <= x + bombRadius; i++) {
+            for (int j = y - bombRadius; j <= y + bombRadius; j++) {
                 if (board.IsInBoard(i, j)) {
                     clearedFossils.Add(board.fossils[i, j]);
                     ClearFossil(board.fossils[i, j]);
