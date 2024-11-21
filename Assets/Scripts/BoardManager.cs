@@ -11,7 +11,6 @@ public class BoardManager : MonoBehaviour
     public Fossil selectedFossil = null;
     public Fossil[] swapPair = new Fossil[2];
 
-    public MoveManager moveManager;
     public AnimationManager animationManager;
     public FossilSpawner fossilSpawner;
     public SwapManager swapManager;
@@ -37,7 +36,7 @@ public class BoardManager : MonoBehaviour
     }
 
     public void HandleFossilClick(Vector3 mousePos) {
-        if (animationManager.isAnimating || !moveManager.HasMoveLeft()) return;
+        if (animationManager.isAnimating) return;
 
         Vector2Int gridPos = GetBoardGridPosition(mousePos);
 

@@ -25,11 +25,6 @@ public class UIManager : MonoBehaviour
         settingsPanel.SetActive(true);
     }
 
-    public void OnSettingsBackButtonPressed(){
-        pausePanel.SetActive(true);
-        settingsPanel.SetActive(false);
-    }
-
     public void OnMainMenuButtonPressed(){
         Time.timeScale = 1;
         SceneManager.LoadScene("MainMenu");

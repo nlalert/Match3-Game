@@ -5,6 +5,7 @@ using UnityEngine;
 public class SwapManager : MonoBehaviour {
     public BoardManager board;
     public MatchManager matchManager;
+    public MoveManager moveManager;
 
     public void CheckAndSwap(Fossil fossil1, Fossil fossil2){
         if (AreAdjacent(fossil1, fossil2)){
@@ -20,9 +21,9 @@ public class SwapManager : MonoBehaviour {
 
         // Check for matches after swapping
         if (TryHandleMatches(fossil1, fossil2)){
-            if (!board.moveManager.UseMove()){
+            if (!moveManager.UseMove()){
                 Debug.Log("No moves remaining!");
-                board.moveManager.GameOver();
+                moveManager.GameOver();
             }
 
             yield return StartCoroutine(FillEmptySpots());

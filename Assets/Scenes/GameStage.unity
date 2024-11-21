@@ -797,9 +797,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1990476588}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 227.6, y: -81.79}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -400, y: 299.42}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &297280908
@@ -1836,7 +1836,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.5, z: -10}
+  m_LocalPosition: {x: 5, y: -0.5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1886,7 +1886,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 430a283bd21382040997ef479d2e41b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalMoves: 20
+  totalMoves: 1
   remainingMoves: 20
   movesText: {fileID: 1222913218}
 --- !u!1 &559432967
@@ -1939,7 +1939,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.4943396, g: 0.4943396, b: 0.4943396, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2016,7 +2016,6 @@ MonoBehaviour:
   swapPair:
   - {fileID: 0}
   - {fileID: 0}
-  moveManager: {fileID: 543122440}
   animationManager: {fileID: 1547038065}
   fossilSpawner: {fileID: 690768957}
   swapManager: {fileID: 1208020085}
@@ -3655,8 +3654,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: 2.5001068, y: 0}
-  m_SizeDelta: {x: -4.9999, y: 0}
+  m_AnchoredPosition: {x: 2.5000305, y: 0}
+  m_SizeDelta: {x: -5.000072, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1208020083
 GameObject:
@@ -3704,6 +3703,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   board: {fileID: 587334633}
   matchManager: {fileID: 1652388662}
+  moveManager: {fileID: 543122440}
 --- !u!1 &1214430168
 GameObject:
   m_ObjectHideFlags: 0
@@ -3871,7 +3871,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -250, y: -75}
+  m_AnchoredPosition: {x: -400, y: -75}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1222913218
@@ -4126,8 +4126,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -300, y: 0}
-  m_SizeDelta: {x: 400, y: 50}
+  m_AnchoredPosition: {x: -400, y: 0}
+  m_SizeDelta: {x: 650, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1352310175
 MonoBehaviour:
@@ -4174,7 +4174,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 10000
+  m_MaxValue: 5000
   m_WholeNumbers: 1
   m_Value: 0
   m_OnValueChanged:
@@ -4799,7 +4799,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -300, y: 106}
+  m_AnchoredPosition: {x: -400, y: 0}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1572451350
@@ -5547,7 +5547,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1990476589}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: OnSettingsBackButtonPressed
+        m_MethodName: CloseSettings
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5975,10 +5975,10 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1352310174}
   - {fileID: 1572451349}
   - {fileID: 1222913217}
   - {fileID: 297280907}
-  - {fileID: 1352310174}
   - {fileID: 605417515}
   - {fileID: 1989100736}
   - {fileID: 351347875}
