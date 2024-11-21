@@ -5,6 +5,8 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour {
     public static AudioManager Instance;
 
+    public AudioClip stageMusic;
+
     public AudioClip swapSound;
     public AudioClip matchSound1;
     public AudioClip matchSound2;
@@ -21,21 +23,17 @@ public class AudioManager : MonoBehaviour {
     [Range(0f, 1f)] // Slider in the Inspector for volume
     public float volume = 1f; // Default to maximum volume
 
-    private void Awake()
-    {
-        if (Instance == null)
-        {
+    private void Awake(){
+        if (Instance == null){
             Instance = this;
             DontDestroyOnLoad(gameObject); // Ensure persistence
         }
-        else
-        {
+        else {
             Destroy(gameObject);
         }
     }
 
-    private void Start()
-    {
+    private void Start(){
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
         {
@@ -46,16 +44,14 @@ public class AudioManager : MonoBehaviour {
         audioSource.volume = volume;
     }
 
-    public void PlaySound(AudioClip clip)
-    {
+    public void PlaySound(AudioClip clip){
         if (clip != null)
         {
             audioSource.PlayOneShot(clip, volume); // Use the current volume level
         }
     }
 
-    public void SetVolume(float newVolume)
-    {
+    public void SetVolume(float newVolume){
         volume = Mathf.Clamp01(newVolume); // Ensure the volume is between 0 and 1
         audioSource.volume = volume; // Update the AudioSource volume
     }

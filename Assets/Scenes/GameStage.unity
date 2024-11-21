@@ -3074,6 +3074,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e7c94bc63cf5cf42a4b48e33eb08365, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stageMusic: {fileID: 8300000, guid: f96d38e87c064544ea342b3904c37fbf, type: 3}
   swapSound: {fileID: 8300000, guid: 15bb06965d040cd469dc0dacacd922a4, type: 3}
   matchSound1: {fileID: 8300000, guid: 178e848007af17c4a9620e1b975632f3, type: 3}
   matchSound2: {fileID: 8300000, guid: f423243b48e9fa746a51e64a39122401, type: 3}
@@ -6256,8 +6257,8 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 519420032}
+  - {fileID: 1000864498}
   - {fileID: 587334632}
   - {fileID: 218923567}
   - {fileID: 1990476588}
   - {fileID: 485024345}
-  - {fileID: 1000864498}
