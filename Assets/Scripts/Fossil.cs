@@ -7,12 +7,21 @@ public enum PowerUpType {
     DNA
 }
 
+public enum FossilType {
+    Amber,
+    Gem,
+    Leaf,
+    Shell,
+    TRex,
+    Trilobite
+}
+
 public class Fossil : MonoBehaviour {
     public int x, y;
-    public int type;
+    public FossilType type;
     public PowerUpType powerUpType = PowerUpType.None;
 
-    public void Initialize(int x, int y, int type) {
+    public void Initialize(int x, int y, FossilType type) {
         this.x = x;
         this.y = y;
         this.type = type;

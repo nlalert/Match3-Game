@@ -7,6 +7,10 @@ public class PowerUpManager : MonoBehaviour {
     public MatchManager matchManager;
     public ScoreManager scoreManager;
 
+    public StripeSpriteManager stripeSpriteManager;
+    public BombSpriteManager bombSpriteManager;
+    public DNASpriteManager dnaSpriteManager;
+
     public Fossil HandlePowerUpCreation(List<Fossil> matches) {
         if (matches == null || matches.Count < 4) return null;
 
@@ -81,8 +85,30 @@ public class PowerUpManager : MonoBehaviour {
         // Assign the power-up type to the fossil
         fossil.SetPowerUp(powerUpType);
 
-        // Provide visual feedback for the power-up (e.g., color change)
-        fossil.GetComponent<SpriteRenderer>().color = powerUpType == PowerUpType.LineClear ? Color.blue : Color.red;
+        // Change the sprite based on the power-up type
+        SpriteRenderer spriteRenderer = fossil.GetComponent<SpriteRenderer>();
+        switch (powerUpType) {
+            case PowerUpType.LineClear:
+                spriteRenderer.sprite = GetStripeSprite(fossil.type);
+                break;
+            case PowerUpType.Bomb:
+                spriteRenderer.sprite = GetBombSprite(fossil.type);
+                break;
+            case PowerUpType.DNA:
+                spriteRenderer.sprite =dnaSpriteManager.GetSprite();
+                break;
+            default:
+                Debug.LogWarning("Unknown PowerUpType. No sprite assigned.");
+                break;
+        }
+    }
+
+    private Sprite GetStripeSprite(FossilType type) {
+        return stripeSpriteManager.GetSprite(type);
+    }
+
+    private Sprite GetBombSprite(FossilType type) {
+        return bombSpriteManager.GetSprite(type);
     }
 
     public void ActivatePowerUp(Fossil fossil) {

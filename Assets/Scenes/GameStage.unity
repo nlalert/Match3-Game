@@ -465,6 +465,80 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 128518754}
   m_CullTransparentMesh: 1
+--- !u!1 &153264575
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 153264576}
+  - component: {fileID: 153264579}
+  - component: {fileID: 153264578}
+  - component: {fileID: 153264577}
+  m_Layer: 0
+  m_Name: SpecialSpriteManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &153264576
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 153264575}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 485024345}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &153264577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 153264575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70c206c4adcd8c54fb34130175bc8f11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DNASprite: {fileID: 0}
+--- !u!114 &153264578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 153264575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f028c707dbf13584c88fdee8380d8aab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stripeSprites:
+  - {fileID: 21300000, guid: ff2edefbd6f8be44096ca52e647ea165, type: 3}
+--- !u!114 &153264579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 153264575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8394ff5ff3008ac4bbb244b493acf1c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bombSprites: []
 --- !u!1 &172932962
 GameObject:
   m_ObjectHideFlags: 0
@@ -1662,6 +1736,7 @@ Transform:
   - {fileID: 690768956}
   - {fileID: 1051652470}
   - {fileID: 648430140}
+  - {fileID: 153264576}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
@@ -3132,6 +3207,9 @@ MonoBehaviour:
   board: {fileID: 587334633}
   matchManager: {fileID: 1652388662}
   scoreManager: {fileID: 1583196363}
+  stripeSpriteManager: {fileID: 153264578}
+  bombSpriteManager: {fileID: 153264579}
+  dnaSpriteManager: {fileID: 153264577}
 --- !u!1 &1085786485
 GameObject:
   m_ObjectHideFlags: 0

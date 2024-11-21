@@ -5,44 +5,44 @@ public class FossilSpawner : MonoBehaviour {
     public GameObject[] fossilPrefabs;
 
     public void SpawnFossil(int x, int y) {
-        int randomType = GetRandomFossilType(x, y);
+        FossilType randomType = GetRandomFossilType(x, y);
         InstantiateFossilInScene(x, y, randomType);
     }
 
-    private int GetRandomFossilType(int x, int y){
-        int randomType;
+    private FossilType GetRandomFossilType(int x, int y) {
+        FossilType randomType;
         do {
-            randomType = Random.Range(0, fossilPrefabs.Length);
+            randomType = (FossilType)Random.Range(0, fossilPrefabs.Length);
         } while (WillMatchIfAdd(x, y, randomType));
 
         return randomType;
     }
 
-    private void InstantiateFossilInScene(int x, int y, int type){
+    private void InstantiateFossilInScene(int x, int y, FossilType type) {
         Vector3 position = new Vector3(
             x - (board.width / 2),
             y - (board.height / 2),
             0
         );
 
-        GameObject newFossil = Instantiate(fossilPrefabs[type], position, Quaternion.identity);
+        GameObject newFossil = Instantiate(fossilPrefabs[(int)type], position, Quaternion.identity);
         newFossil.transform.SetParent(board.transform);
 
         AddFossilToBoard(newFossil, x, y, type);
     }
 
-    private void AddFossilToBoard(GameObject newFossil, int x, int y, int type){
+    private void AddFossilToBoard(GameObject newFossil, int x, int y, FossilType type) {
         Fossil fossil = newFossil.GetComponent<Fossil>();
-        
+
         fossil.Initialize(x, y, type);
         board.fossils[x, y] = fossil;
     }
 
-    private bool WillMatchIfAdd(int x, int y, int type) {
+    private bool WillMatchIfAdd(int x, int y, FossilType type) {
         return MatchesHorizontally(x, y, type) || MatchesVertically(x, y, type);
     }
 
-    private bool MatchesHorizontally(int x, int y, int type) {
+    private bool MatchesHorizontally(int x, int y, FossilType type) {
         if (x < 2) return false;
 
         if (board.fossils[x - 1, y] != null && board.fossils[x - 2, y] != null) {
@@ -50,11 +50,11 @@ public class FossilSpawner : MonoBehaviour {
                 return true;
             }
         }
-        
+
         return false;
     }
-    
-    private bool MatchesVertically(int x, int y, int type) {
+
+    private bool MatchesVertically(int x, int y, FossilType type) {
         if (y < 2) return false;
 
         if (board.fossils[x, y - 1] != null && board.fossils[x, y - 2] != null) {
