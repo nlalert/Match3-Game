@@ -116,15 +116,18 @@ public class PowerUpManager : MonoBehaviour {
     }
 
     public void ActivatePowerUp(Fossil fossil) {
-        if (fossil.powerUpType == PowerUpType.None) return;
+        if (fossil == null || fossil.powerUpType == PowerUpType.None) return;
         switch (fossil.powerUpType) {
             case PowerUpType.LineClear:
+                fossil.powerUpType = PowerUpType.None;
                 ClearLine(fossil);
                 break;
             case PowerUpType.Bomb:
+                fossil.powerUpType = PowerUpType.None;
                 ExplodeAround(fossil);
                 break;
             case PowerUpType.DNA:
+                fossil.powerUpType = PowerUpType.None;
                 ActivateDNA(fossil);
                 break;
         }
@@ -329,10 +332,19 @@ public class PowerUpManager : MonoBehaviour {
         return clearedFossils;
     }
 
-
     private void ClearFossil(Fossil targetFossil) {
         if (targetFossil != null) {
-            board.DestroyFossil(targetFossil);
+            if (targetFossil.powerUpType != PowerUpType.None) {
+                if(targetFossil.powerUpType != PowerUpType.DNA){
+                    ActivatePowerUp(targetFossil); // Trigger the power-up effect
+                }
+                else{
+                    targetFossil.type = (FossilType) UnityEngine.Random.Range(0, 6);
+                    ActivatePowerUp(targetFossil);
+                }
+            }
+
+            board.DestroyFossil(targetFossil); // Destroy the fossil
             Debug.Log($"Cleared fossil at ({targetFossil.x}, {targetFossil.y})");
         }
     }
