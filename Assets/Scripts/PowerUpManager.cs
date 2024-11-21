@@ -249,21 +249,31 @@ public class PowerUpManager : MonoBehaviour {
         int y = fossil.y;
 
         List<Fossil> clearedFossils = new List<Fossil>();
-
+        
         // Clear the row within the bomb radius
-        for (int i = x - bombRadius; i <= x + bombRadius; i++) {
-            if (board.IsInBoard(i, y) && board.fossils[i, y] != null) {
-                clearedFossils.Add(board.fossils[i, y]);
-                ClearFossil(board.fossils[i, y]);
+        for (int i = 0; i < board.width; i++) {
+            for (int j = y - bombRadius; j <= y + bombRadius; j++) {
+                if (board.IsInBoard(i, j) && board.fossils[i, j] != null) {
+                    if(!clearedFossils.Contains(board.fossils[i, j])){
+                        clearedFossils.Add(board.fossils[i, j]);
+                    }
+                }
             }
         }
 
         // Clear the column within the bomb radius
-        for (int j = y - bombRadius; j <= y + bombRadius; j++) {
-            if (board.IsInBoard(x, j) && board.fossils[x, j] != null) {
-                clearedFossils.Add(board.fossils[x, j]);
-                ClearFossil(board.fossils[x, j]);
+        for (int i = x - bombRadius; i <= x + bombRadius; i++) {
+            for (int j = 0; j < board.height; j++) {
+                if (board.IsInBoard(i, j) && board.fossils[i, j] != null) {
+                    if(!clearedFossils.Contains(board.fossils[i, j])){
+                        clearedFossils.Add(board.fossils[i, j]);
+                    }
+                }
             }
+        }
+
+        foreach (Fossil fossilElement in clearedFossils){
+            ClearFossil(fossilElement);
         }
 
         // Update the score
