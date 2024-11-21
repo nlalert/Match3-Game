@@ -66,7 +66,7 @@ public class ScoreManager : MonoBehaviour
                 baseScorePerFossil = 30;
                 break;
             case PowerUpType.DNA:
-                baseScorePerFossil = 40; // Higher score per fossil cleared by DNA
+                baseScorePerFossil = 10;
                 break;
         }
 
