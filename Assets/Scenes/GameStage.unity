@@ -4765,6 +4765,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   board: {fileID: 587334633}
   isAnimating: 0
+  swapDuration: 0.15
+  fallDuration: 0.15
 --- !u!1 &1572451348
 GameObject:
   m_ObjectHideFlags: 0
@@ -4945,7 +4947,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoreSlider: {fileID: 1352310175}
   scoreText: {fileID: 1572451350}
-  targetScore: 5000
+  targetScore: 10000
 --- !u!1 &1594013497
 GameObject:
   m_ObjectHideFlags: 0
