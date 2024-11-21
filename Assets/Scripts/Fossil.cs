@@ -13,7 +13,8 @@ public enum FossilType {
     Leaf,
     Shell,
     TRex,
-    Trilobite
+    Trilobite,
+    DNA
 }
 
 public class Fossil : MonoBehaviour {

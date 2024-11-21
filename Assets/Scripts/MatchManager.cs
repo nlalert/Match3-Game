@@ -9,6 +9,10 @@ public class MatchManager : MonoBehaviour{
     public PowerUpManager powerUpManager;
 
     public List<Fossil> GetMatches(Fossil fossil) {
+        if (fossil.type == FossilType.DNA) {
+            return null;
+        }
+
         HashSet<Fossil> matchedFossils = new HashSet<Fossil>();
 
         // Get horizontal matches

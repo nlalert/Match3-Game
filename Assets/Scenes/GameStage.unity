@@ -1886,7 +1886,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 430a283bd21382040997ef479d2e41b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalMoves: 1
+  totalMoves: 20
   remainingMoves: 20
   movesText: {fileID: 1222913218}
 --- !u!1 &559432967

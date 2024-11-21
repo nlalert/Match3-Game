@@ -53,13 +53,23 @@ public class SwapManager : MonoBehaviour {
         fossil2.UpdatePosition(fossil2.x, fossil2.y);
     }
 
-    private bool TryHandleMatches(Fossil fossil1, Fossil fossil2){
+    private bool TryHandleMatches(Fossil fossil1, Fossil fossil2) {
+        if (fossil1.type == FossilType.DNA) {
+            matchManager.powerUpManager.ActivateDNA(fossil2);
+            return true;
+        }
+
+        if (fossil2.type == FossilType.DNA) {
+            matchManager.powerUpManager.ActivateDNA(fossil1);
+            return true;
+        }
+
         List<Fossil> matches1 = matchManager.GetMatches(fossil1);
         List<Fossil> matches2 = matchManager.GetMatches(fossil2);
 
         bool hasMatches = (matches1 != null && matches1.Count >= 3) || (matches2 != null && matches2.Count >= 3);
 
-        if (hasMatches){
+        if (hasMatches) {
             Debug.Log("Match found!");
             if (matches1 != null) matchManager.DestroyMatches(matches1);
             if (matches2 != null) matchManager.DestroyMatches(matches2);
@@ -70,7 +80,7 @@ public class SwapManager : MonoBehaviour {
 
     public IEnumerator FillEmptySpots(){
         while (TryShiftfossilsDown()){
-            yield return new WaitForSeconds(0.15f);
+            yield return new WaitForSeconds(0.1f);
         }
 
         yield return StartCoroutine(SpawnNewfossils());
@@ -128,6 +138,6 @@ public class SwapManager : MonoBehaviour {
                 }
             }
         }
-        yield return null; // Ensure the coroutine completes properly
+        yield return null;
     }
 }

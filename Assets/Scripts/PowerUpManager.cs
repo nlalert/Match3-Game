@@ -95,7 +95,8 @@ public class PowerUpManager : MonoBehaviour {
                 spriteRenderer.sprite = GetBombSprite(fossil.type);
                 break;
             case PowerUpType.DNA:
-                spriteRenderer.sprite =dnaSpriteManager.GetSprite();
+                spriteRenderer.sprite = dnaSpriteManager.GetSprite();
+                fossil.type = FossilType.DNA;
                 break;
             default:
                 Debug.LogWarning("Unknown PowerUpType. No sprite assigned.");
@@ -167,7 +168,7 @@ public class PowerUpManager : MonoBehaviour {
         Debug.Log($"Bomb activated at ({x}, {y})");
     }
 
-    private void ActivateDNA(Fossil fossil) {
+    public void ActivateDNA(Fossil fossil) {
         List<Fossil> clearedFossils = new List<Fossil>();
 
         // Clear all fossils of the same type as the DNA fossil

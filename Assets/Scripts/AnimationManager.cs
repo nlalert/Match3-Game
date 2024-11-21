@@ -5,29 +5,33 @@ using UnityEngine;
 public class AnimationManager : MonoBehaviour {
     public BoardManager board;
     public bool isAnimating = false;
-
-    public IEnumerator AnimateSwap(Fossil fossil1, Fossil fossil2, float duration = 0.2f) {
+    public float swapDuration = 0.15f;
+    public float fallDuration = 0.15f;
+    public IEnumerator AnimateSwap(Fossil fossil1, Fossil fossil2) {
         AudioManager.Instance.PlaySound(AudioManager.Instance.swapSound); // Play swap sound
         Vector3 startPos1 = fossil1.transform.position;
         Vector3 startPos2 = fossil2.transform.position;
 
         float elapsed = 0f;
 
-        while (elapsed < duration) {
+        while (elapsed < swapDuration) {
             elapsed += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsed / duration);
-            fossil1.transform.position = Vector3.Lerp(startPos1, startPos2, t);
-            fossil2.transform.position = Vector3.Lerp(startPos2, startPos1, t);
+            float t = Mathf.Clamp01(elapsed / swapDuration);
+            //if(fossil1 != null)
+                fossil1.transform.position = Vector3.Lerp(startPos1, startPos2, t);
+            //if(fossil2 != null)
+                fossil2.transform.position = Vector3.Lerp(startPos2, startPos1, t);
             yield return null;
         }
-
-        fossil1.transform.position = startPos2;
-        fossil2.transform.position = startPos1;
-
-        board.swapManager.CompleteSwap(fossil1, fossil2);
+        //if(fossil1 != null)
+            fossil1.transform.position = startPos2;
+        //if(fossil2 != null)
+            fossil2.transform.position = startPos1;
+        //if(fossil1 != null && fossil2 != null)
+            board.swapManager.CompleteSwap(fossil1, fossil2);
     }
 
-    public IEnumerator AnimateFossilFall(Fossil fossil, float duration = 0.15f) {
+    public IEnumerator AnimateFossilFall(Fossil fossil) {
         AudioManager.Instance.PlaySound(AudioManager.Instance.fallSound); // Play fall sound
 
         Vector3 targetPosition = new Vector3(
@@ -39,10 +43,10 @@ public class AnimationManager : MonoBehaviour {
         Vector3 startPosition = fossil.transform.position;
         float elapsed = 0f;
 
-        while (elapsed < duration) {
+        while (elapsed < fallDuration) {
             elapsed += Time.deltaTime;
             if(fossil != null)
-                fossil.transform.position = Vector3.Lerp(startPosition, targetPosition, elapsed / duration);
+                fossil.transform.position = Vector3.Lerp(startPosition, targetPosition, elapsed / fallDuration);
             yield return null;
         }
 
