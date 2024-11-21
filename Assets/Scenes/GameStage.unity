@@ -511,7 +511,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70c206c4adcd8c54fb34130175bc8f11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DNASprite: {fileID: 0}
+  DNASprite: {fileID: 21300000, guid: 012c6c5b60105ad4f832048f681f29e0, type: 3}
 --- !u!114 &153264578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -526,6 +526,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stripeSprites:
   - {fileID: 21300000, guid: ff2edefbd6f8be44096ca52e647ea165, type: 3}
+  - {fileID: 21300000, guid: 0e77106309448e144b2aa108780e9460, type: 3}
+  - {fileID: 21300000, guid: 0fc4b0227ae57f54ebc49de50db9fd26, type: 3}
+  - {fileID: 21300000, guid: c64b639e2ae3b064283a47a2583c81c9, type: 3}
+  - {fileID: 21300000, guid: 950420287dc8a8c40a36bfc22a03e46a, type: 3}
+  - {fileID: 21300000, guid: cf03d3c9c46a443479635b904e7e9122, type: 3}
 --- !u!114 &153264579
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -538,7 +543,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8394ff5ff3008ac4bbb244b493acf1c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bombSprites: []
+  bombSprites:
+  - {fileID: 21300000, guid: 018ed66fa87f983419c6eb9b5cc2de25, type: 3}
+  - {fileID: 21300000, guid: 4135a625b0bbd1b47bf8c8bf09c2af79, type: 3}
+  - {fileID: 21300000, guid: 0c0bffaf3761a48439e0621da8b38409, type: 3}
+  - {fileID: 21300000, guid: 0f42456a73f4aaa408c97396ac246a1c, type: 3}
+  - {fileID: 21300000, guid: fdaf9dd196a2c4e4d9681617a8f889ba, type: 3}
+  - {fileID: 21300000, guid: b48187766fde0d3419402381be5d0eaa, type: 3}
 --- !u!1 &172932962
 GameObject:
   m_ObjectHideFlags: 0
