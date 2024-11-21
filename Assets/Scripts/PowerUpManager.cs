@@ -29,7 +29,7 @@ public class PowerUpManager : MonoBehaviour {
             return centralFossil;
         }
 
-        if (matches.Count == 4) {
+        else if (matches.Count == 4) {
             CreatePowerUp(centralFossil, PowerUpType.LineClear);
             AudioManager.Instance.PlaySound(AudioManager.Instance.stripeCreatedSound);
             scoreManager.CalculateScore(matches, PowerUpType.LineClear);
@@ -37,7 +37,7 @@ public class PowerUpManager : MonoBehaviour {
             return centralFossil;
         } 
 
-        if (matches.Count >= 5) {
+        else if (matches.Count >= 5) {
             CreatePowerUp(centralFossil, PowerUpType.Bomb);
             AudioManager.Instance.PlaySound(AudioManager.Instance.wrapCreatedSound);
             scoreManager.CalculateScore(matches, PowerUpType.Bomb);
@@ -243,7 +243,34 @@ public class PowerUpManager : MonoBehaviour {
         scoreManager.AddScoreForPowerUpActivation(PowerUpType.Bomb, clearedFossils.Count);
         Debug.Log($"SuperBomb activated at ({x}, {y}). Cleared {clearedFossils.Count} fossils.");
     }
-    
+
+    public void ActivateExplosiveLineClear(Fossil fossil) {
+        int x = fossil.x;
+        int y = fossil.y;
+
+        List<Fossil> clearedFossils = new List<Fossil>();
+
+        // Clear the row within the bomb radius
+        for (int i = x - bombRadius; i <= x + bombRadius; i++) {
+            if (board.IsInBoard(i, y) && board.fossils[i, y] != null) {
+                clearedFossils.Add(board.fossils[i, y]);
+                ClearFossil(board.fossils[i, y]);
+            }
+        }
+
+        // Clear the column within the bomb radius
+        for (int j = y - bombRadius; j <= y + bombRadius; j++) {
+            if (board.IsInBoard(x, j) && board.fossils[x, j] != null) {
+                clearedFossils.Add(board.fossils[x, j]);
+                ClearFossil(board.fossils[x, j]);
+            }
+        }
+
+        // Update the score
+        scoreManager.AddScoreForPowerUpActivation(PowerUpType.LineClear, clearedFossils.Count);
+        Debug.Log($"ExplosiveLineClear activated at ({x}, {y}). Cleared {clearedFossils.Count} fossils.");
+    }
+
     private List<Fossil> ClearEntireBoard() {
         List<Fossil> clearedFossils = new List<Fossil>();
 
