@@ -2,6 +2,9 @@ using System.Collections;
 using UnityEngine;
 
 public class AnimationManager : MonoBehaviour{
+
+    // https://docs.unity3d.com/ScriptReference/Coroutine.html
+    
     public BoardManager board;
     public bool isAnimating = false;
     public float swapDuration = 0.15f;

@@ -1,0 +1,1 @@
+Sprite ฟอสซิลทั้งหมด ใน Assets/Sprite วาดขึ้นมาเองในโปรแกรม Aseprite โดยภาพมีขนาด 64x64 px

@@ -5874,9 +5874,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   score: 0
+  targetScore: 10000
   scoreSlider: {fileID: 1352310175}
   scoreText: {fileID: 1572451350}
-  targetScore: 10000
   animationManager: {fileID: 1547038065}
   uiManager: {fileID: 1990476589}
 --- !u!1 &1612914130

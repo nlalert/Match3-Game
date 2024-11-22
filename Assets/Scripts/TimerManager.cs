@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public class TimerManager : MonoBehaviour {
-    private UIManager uiManager;
+    public UIManager uiManager;
     private float elapsedTime = 0f;
     private bool isTimerRunning = false;
 

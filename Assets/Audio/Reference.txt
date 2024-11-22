@@ -1,0 +1,20 @@
+ใน Assets/Audio มีไฟล์เสียงที่นำมาใช้ทั้งหมด 14 ไฟล์
+
+ไฟล์เสียงทั้งหมดต่อไปนี้ นำมาจากเกม Candy Crush เวอร์ชั่น HTML จาก https://candycrush.fandom.com/wiki/Sound
+ 
+1. Bomb_sound1.ogg จากเสียง "Wrapped candy blast"
+2. Candy_land1.ogg จากเสียง "Candy falls 1"
+3. Candy_land2.ogg จากเสียง "Candy falls 2"
+4. Candy_land3.ogg จากเสียง "Candy falls 3"
+5. Candy_land4.ogg จากเสียง "Candy falls 4"
+6. Colour_bomb_created.ogg จากเสียง "Colour bomb is created"
+7. Colour_bomb1.ogg จากเสียง "Colour bomb detonation (old)"
+8. Level_completed.ogg จากเสียง "Level completed"
+9. Level_failed1.ogg จากเสียง "Level failed"
+10. Line_blast1.ogg จากเสียง "Striped candy blast"
+11. Striped_candy_created1.ogg จากเสียง "Striped candy is created"
+12. Switch_sound1.ogg จากเสียง "Normal switch"
+13. Wrapped_candy_created1.ogg จากเสียง "Wrapped candy is created"
+
+ไฟล์เสียงต่อไปนี้ นำมาจาก https://www.youtube.com/watch?v=XKhomnp6xd8
+14. Jurassic Park theme LoFi remix.mp3

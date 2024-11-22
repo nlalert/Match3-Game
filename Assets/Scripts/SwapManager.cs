@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SwapManager : MonoBehaviour {
+
+    // https://docs.unity3d.com/ScriptReference/Coroutine.html
+
     public BoardManager board;
     public MatchManager matchManager;
     public MoveManager moveManager;
