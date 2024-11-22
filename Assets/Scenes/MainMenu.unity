@@ -1364,12 +1364,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameSceneName: GameStage
   settingsPanel: {fileID: 1020964914}
-  masterVolumeSlider: {fileID: 301085174}
-  masterVolumeText: {fileID: 655069422}
-  musicVolumeSlider: {fileID: 695956591}
-  musicVolumeText: {fileID: 690734940}
-  sfxVolumeSlider: {fileID: 1840343362}
-  sfxVolumeText: {fileID: 1202055637}
 --- !u!1 &534490107
 GameObject:
   m_ObjectHideFlags: 0
@@ -2208,7 +2202,7 @@ MonoBehaviour:
   gameOverSound: {fileID: 0}
   masterVolume: 1
   musicVolume: 0.3
-  sfxVolume: 1
+  sfxVolume: 0.65
 --- !u!1 &1020964914
 GameObject:
   m_ObjectHideFlags: 0
@@ -2220,6 +2214,7 @@ GameObject:
   - component: {fileID: 1020964915}
   - component: {fileID: 1020964917}
   - component: {fileID: 1020964916}
+  - component: {fileID: 1020964918}
   m_Layer: 5
   m_Name: SettingsPanel
   m_TagString: Untagged
@@ -2294,6 +2289,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1020964914}
   m_CullTransparentMesh: 1
+--- !u!114 &1020964918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1020964914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26fe91f9187df434590c64a295470ea0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  masterVolumeSlider: {fileID: 301085174}
+  masterVolumeText: {fileID: 655069422}
+  musicVolumeSlider: {fileID: 695956591}
+  musicVolumeText: {fileID: 690734940}
+  sfxVolumeSlider: {fileID: 1840343362}
+  sfxVolumeText: {fileID: 1202055637}
 --- !u!1 &1202055635
 GameObject:
   m_ObjectHideFlags: 0

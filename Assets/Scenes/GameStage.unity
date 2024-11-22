@@ -280,8 +280,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
+      - m_Target: {fileID: 1990476589}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: CloseSettings
         m_Mode: 1
         m_Arguments:
@@ -6147,12 +6147,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pausePanel: {fileID: 605417514}
   settingsPanel: {fileID: 2073823260}
-  masterVolumeSlider: {fileID: 150758179}
-  masterVolumeText: {fileID: 1064904726}
-  musicVolumeSlider: {fileID: 1021376135}
-  musicVolumeText: {fileID: 153041628}
-  sfxVolumeSlider: {fileID: 539040133}
-  sfxVolumeText: {fileID: 814714877}
   isPaused: 0
 --- !u!1 &2073823260
 GameObject:
@@ -6165,6 +6159,7 @@ GameObject:
   - component: {fileID: 2073823261}
   - component: {fileID: 2073823263}
   - component: {fileID: 2073823262}
+  - component: {fileID: 2073823264}
   m_Layer: 5
   m_Name: SettingsPanel
   m_TagString: Untagged
@@ -6239,6 +6234,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2073823260}
   m_CullTransparentMesh: 1
+--- !u!114 &2073823264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2073823260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26fe91f9187df434590c64a295470ea0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  masterVolumeSlider: {fileID: 150758179}
+  masterVolumeText: {fileID: 1064904726}
+  musicVolumeSlider: {fileID: 1021376135}
+  musicVolumeText: {fileID: 153041628}
+  sfxVolumeSlider: {fileID: 539040133}
+  sfxVolumeText: {fileID: 814714877}
 --- !u!1 &2078132576
 GameObject:
   m_ObjectHideFlags: 0
