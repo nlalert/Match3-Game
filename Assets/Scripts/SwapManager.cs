@@ -22,19 +22,18 @@ public class SwapManager : MonoBehaviour {
 
         // Check for matches after swapping
         if (TryHandleMatches(fossil1, fossil2)){
-            if (!moveManager.UseMove()){
-                Debug.Log("No moves remaining!");
-                scoreManager.GameOver();
-            }
-
+            moveManager.UseMove();
             yield return StartCoroutine(FillEmptySpots());
         }
         else{
-            Debug.Log("No Match: Swapping back.");
             yield return StartCoroutine(board.animationManager.AnimateSwap(fossil1, fossil2));
         }
 
         board.animationManager.isAnimating = false;
+
+        if (!moveManager.HasMoveLeft()){
+            scoreManager.GameOver();
+        }
     }
 
     public bool AreAdjacent(Fossil fossil1, Fossil fossil2){

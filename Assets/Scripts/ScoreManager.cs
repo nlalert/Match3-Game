@@ -9,7 +9,9 @@ public class ScoreManager : MonoBehaviour
     public Slider scoreSlider; // Slider to represent the score
     public TextMeshProUGUI scoreText; // Text to display the numeric score
     public int targetScore = 10000; // Score required to win
-    private GameState state = GameState.Playing;
+
+    public AnimationManager animationManager;
+    public UIManager uiManager;
 
     private void Start() {
         scoreSlider.maxValue = targetScore;
@@ -44,7 +46,6 @@ public class ScoreManager : MonoBehaviour
         // Update total score
         score += baseScore;
 
-        Debug.Log($"Match of {matchSize} fossils! Power-Up: {powerUpType}, Base Score: {baseScore}, Total Score: {score}");
         UpdateScoreUI();
 
         // Check if the target score is reached
@@ -73,7 +74,6 @@ public class ScoreManager : MonoBehaviour
         // Update total score
         score += activationScore;
 
-        Debug.Log($"Power-Up Activated ({powerUpType})! Cleared {fossilsCleared} fossils, Score: {activationScore}, Total Score: {score}");
         UpdateScoreUI();
 
         // Check if the target score is reached
@@ -91,26 +91,18 @@ public class ScoreManager : MonoBehaviour
     }
 
     private void WinGame() {
-        if(state == GameState.Playing){
-            Debug.Log("Congratulations! You've reached the target score and won the game!");
-            AudioManager.Instance.StopMusic();
-            AudioManager.Instance.PlaySound(AudioManager.Instance.gamePass);
-            state = GameState.Won;
-        }
+        if(uiManager.isPaused) return;
+        
+        uiManager.Win();
+        AudioManager.Instance.StopMusic();
+        AudioManager.Instance.PlaySound(AudioManager.Instance.gamePass);
     }
 
     public void GameOver() {
-        if(state == GameState.Playing){
-            AudioManager.Instance.StopMusic();
-            AudioManager.Instance.PlaySound(AudioManager.Instance.gameOver); // Play game over sound
-            Debug.Log("Game Over! No moves remaining.");
-            state = GameState.Lose;
-        }
-    }
-}
+        if(animationManager.isAnimating) return;
 
-public enum GameState {
-    Playing,
-    Won,
-    Lose
+        AudioManager.Instance.StopMusic();
+        AudioManager.Instance.PlaySound(AudioManager.Instance.gameOver); // Play game over sound
+        uiManager.GameOver();
+    }
 }

@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 public class UIManager : MonoBehaviour {
     public GameObject pausePanel;
     public GameObject settingsPanel;
+    public GameObject gameOverPanel;
+    public GameObject winPanel;
     public bool isPaused = false;
 
     public void Resume() {
@@ -23,11 +25,29 @@ public class UIManager : MonoBehaviour {
         AudioManager.Instance.PauseAudio();
     }
 
+    public void Win() {
+        isPaused = true;
+        Time.timeScale = 0;
+        winPanel.SetActive(true);
+    }
+
+    public void GameOver() {
+        isPaused = true;
+        Time.timeScale = 0;
+        gameOverPanel.SetActive(true);
+    }
+
     public void TogglePause() {
+        if(IsGameEnd()) return;
+        
         if (isPaused)
             Resume();
         else
             Pause();
+    }
+
+    private bool IsGameEnd(){
+        return winPanel.activeSelf || gameOverPanel.activeSelf;
     }
 
     public void Restart() {
