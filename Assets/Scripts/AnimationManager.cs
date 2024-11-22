@@ -57,11 +57,13 @@ public class AnimationManager : MonoBehaviour{
         // Animate the falling
         while (elapsed < fallDuration){
             elapsed += Time.deltaTime;
-            fossil.transform.position = Vector3.Lerp(startPosition, targetPosition, elapsed / fallDuration);
+            if (fossil != null)
+                fossil.transform.position = Vector3.Lerp(startPosition, targetPosition, elapsed / fallDuration);
             yield return null;
         }
 
         // Set fossils to final position
-        fossil.transform.position = targetPosition;
+        if (fossil != null)
+            fossil.transform.position = targetPosition;
     }
 }

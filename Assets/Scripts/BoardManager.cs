@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BoardManager : MonoBehaviour{
@@ -84,12 +82,12 @@ public class BoardManager : MonoBehaviour{
         return new Vector2Int(x, y);
     }
 
-    // check if grid position is in the board area
+    // Check if grid position is in the board area
     public bool IsInBoard(int x, int y){
         return x >= 0 && x < width && y >= 0 && y < height;
     }
 
-    // Destroys a fossil and removes it from the board
+    // Destroy a fossil and removes it from the board
     public void DestroyFossil(Fossil fossil){
         fossils[fossil.x, fossil.y] = null;
         Destroy(fossil.gameObject);
