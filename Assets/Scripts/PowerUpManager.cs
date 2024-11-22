@@ -14,63 +14,57 @@ public class PowerUpManager : MonoBehaviour {
 
     private int bombRadius = 2;
 
+    // Handle creation of a power-up based on how fossil match
     public Fossil HandlePowerUpCreation(List<Fossil> matches) {
         if (matches == null || matches.Count < 4) return null;
 
-        // Determine the central fossil of the match based on swap pair or the center of the match list
         Fossil centralFossil = GetCentralFossil(matches);
 
-        // Create appropriate power-ups based on the match
         if (IsDNA(matches)) {
             CreatePowerUp(centralFossil, PowerUpType.DNA);
             AudioManager.Instance.PlaySound(AudioManager.Instance.colorBombCreated);
             scoreManager.CalculateScore(matches, PowerUpType.DNA);
-            Debug.Log("Power-Up Created: DNA");
+
             return centralFossil;
         }
-
         else if (matches.Count == 4) {
             CreatePowerUp(centralFossil, PowerUpType.LineClear);
             AudioManager.Instance.PlaySound(AudioManager.Instance.stripeCreated);
             scoreManager.CalculateScore(matches, PowerUpType.LineClear);
-            Debug.Log("Power-Up Created: Line Clear");
+
             return centralFossil;
         } 
-
         else if (matches.Count >= 5) {
             CreatePowerUp(centralFossil, PowerUpType.Bomb);
             AudioManager.Instance.PlaySound(AudioManager.Instance.wrapCreated);
             scoreManager.CalculateScore(matches, PowerUpType.Bomb);
-            Debug.Log("Power-Up Created: Bomb");
+            
             return centralFossil;
         }
 
         return null;
     }
 
+    // Choose central fossil for power-up creation
     private Fossil GetCentralFossil(List<Fossil> matches) {
         Fossil centralFossil = null;
 
-        // Check if the swapped fossils are part of the matches, if so use one of them as central fossil
         if (board.swapPair[0] != null && matches.Contains(board.swapPair[0])) {
             centralFossil = board.swapPair[0];
             board.swapPair[0] = null;
-            Debug.Log("Central Fossil from Swap: " + centralFossil.name);
         }
         else if (board.swapPair[1] != null && matches.Contains(board.swapPair[1])) {
             centralFossil = board.swapPair[1];
             board.swapPair[1] = null;
-            Debug.Log("Central Fossil from Swap: " + centralFossil.name);
         }
         else {
-            // If no swapped fossil is the central fossil, pick the middle one from the match
             centralFossil = matches[matches.Count / 2];
-            Debug.Log("Center Fossil: " + centralFossil.name);
         }
 
         return centralFossil;
     }
 
+    // Check if the matches will create as DNA power-up
     private bool IsDNA(List<Fossil> matches) {
         if(matches.Count != 5) return false;
 
@@ -84,6 +78,7 @@ public class PowerUpManager : MonoBehaviour {
         return sameRow || sameColumn;
     }
 
+    // Creates a power-up
     private void CreatePowerUp(Fossil fossil, PowerUpType powerUpType) {
         fossil.SetPowerUp(powerUpType);
 
@@ -110,6 +105,7 @@ public class PowerUpManager : MonoBehaviour {
         return bombSpriteManager.GetSprite(type);
     }
 
+    // Activate power-up and to use its effect
     public void ActivatePowerUp(Fossil fossil) {
         if (fossil == null || fossil.powerUpType == PowerUpType.None) return;
         switch (fossil.powerUpType) {
@@ -128,6 +124,7 @@ public class PowerUpManager : MonoBehaviour {
         }
     }
 
+    // Clear Cross line
     private void ClearLine(Fossil fossil) {
         int x = fossil.x;
         int y = fossil.y;
@@ -148,9 +145,9 @@ public class PowerUpManager : MonoBehaviour {
 
         AudioManager.Instance.PlaySound(AudioManager.Instance.stripeBlast);
         scoreManager.AddScoreForPowerUpActivation(PowerUpType.LineClear, clearedFossils.Count);
-        Debug.Log($"LineClear activated at ({x}, {y})");
     }
 
+    // Explode with radius of bombRadius
     private void ExplodeAround(Fossil fossil) {
         int x = fossil.x;
         int y = fossil.y;
@@ -168,27 +165,29 @@ public class PowerUpManager : MonoBehaviour {
 
         AudioManager.Instance.PlaySound(AudioManager.Instance.wrapBlast);
         scoreManager.AddScoreForPowerUpActivation(PowerUpType.Bomb, clearedFossils.Count);
-        Debug.Log($"Bomb activated at ({x}, {y})");
     }
-    
+
+    // Activate effect of DNA
     public void ActivateDNA(Fossil swappedFossil) {
         List<Fossil> clearedFossils = new List<Fossil>();
 
         if (swappedFossil.powerUpType != PowerUpType.None) {
             if (swappedFossil.powerUpType == PowerUpType.DNA) {
                 clearedFossils = ClearEntireBoard();
-            } else {
+            } 
+            else {
                 SpreadPowerUpType(swappedFossil);
             }
-        } else {
+        } 
+        else {
             clearedFossils = ClearMatchingFossils(swappedFossil.type);
         }
 
         AudioManager.Instance.PlaySound(AudioManager.Instance.colorBombBlast);
         scoreManager.AddScoreForPowerUpActivation(PowerUpType.DNA, clearedFossils.Count);
-        Debug.Log($"DNA activated: Cleared {clearedFossils.Count} fossils of type {swappedFossil.type}");
     }
 
+    // Activate combination effect of stripe and stripe
     public void ActivateSuperLineClear(Fossil fossil){
         int x = fossil.x;
         int y = fossil.y;
@@ -222,9 +221,9 @@ public class PowerUpManager : MonoBehaviour {
         }
 
         scoreManager.AddScoreForPowerUpActivation(PowerUpType.LineClear, clearedFossils.Count);
-        Debug.Log($"SuperLineClear activated at ({x}, {y}). Cleared {clearedFossils.Count} fossils.");
     }
 
+    // Activate combination effect of bomb and bomb
     public void ActivateSuperBomb(Fossil centralFossil) {
         int x = centralFossil.x;
         int y = centralFossil.y;
@@ -242,9 +241,9 @@ public class PowerUpManager : MonoBehaviour {
         }
 
         scoreManager.AddScoreForPowerUpActivation(PowerUpType.Bomb, clearedFossils.Count);
-        Debug.Log($"SuperBomb activated at ({x}, {y}). Cleared {clearedFossils.Count} fossils.");
     }
 
+    // Activate combination effect of bomb and stripe
     public void ActivateExplosiveLineClear(Fossil fossil) {
         int x = fossil.x;
         int y = fossil.y;
@@ -277,11 +276,10 @@ public class PowerUpManager : MonoBehaviour {
             ClearFossil(fossilElement);
         }
 
-        // Update the score
         scoreManager.AddScoreForPowerUpActivation(PowerUpType.LineClear, clearedFossils.Count);
-        Debug.Log($"ExplosiveLineClear activated at ({x}, {y}). Cleared {clearedFossils.Count} fossils.");
     }
 
+    // Clear entire board from effect of DNA
     private List<Fossil> ClearEntireBoard() {
         List<Fossil> clearedFossils = new List<Fossil>();
 
@@ -297,6 +295,7 @@ public class PowerUpManager : MonoBehaviour {
         return clearedFossils;
     }
 
+    // Spread power-up of fossil that swap with DNA to other fossils with same type
     private void SpreadPowerUpType(Fossil swappedFossil) {
         PowerUpType targetPowerUp = swappedFossil.powerUpType;
 
@@ -305,14 +304,12 @@ public class PowerUpManager : MonoBehaviour {
                 Fossil currentFossil = board.fossils[x, y];
                 if (currentFossil != null && currentFossil.type == swappedFossil.type) {
                     CreatePowerUp(currentFossil, targetPowerUp);
-                    Debug.Log($"Changed fossil at ({x},{y}) to power-up type {targetPowerUp}");
                 }
             }
         }
-
-        Debug.Log($"Propagated power-up type {targetPowerUp} to all fossils of type {swappedFossil.type}.");
     }
 
+    // Clear all fossil of same type of fossil that swap with DNA
     private List<Fossil> ClearMatchingFossils(FossilType targetType) {
         List<Fossil> clearedFossils = new List<Fossil>();
 
@@ -325,15 +322,15 @@ public class PowerUpManager : MonoBehaviour {
             }
         }
 
-        Debug.Log($"Cleared fossils of type {targetType}.");
         return clearedFossils;
     }
 
+    // Clear fossils that will get destroy by power-up effect and also use its power-up
     private void ClearFossil(Fossil targetFossil) {
         if (targetFossil != null) {
             if (targetFossil.powerUpType != PowerUpType.None) {
                 if(targetFossil.powerUpType != PowerUpType.DNA){
-                    ActivatePowerUp(targetFossil); // Trigger the power-up effect
+                    ActivatePowerUp(targetFossil);
                 }
                 else{
                     targetFossil.type = (FossilType) UnityEngine.Random.Range(0, 6);
@@ -341,8 +338,7 @@ public class PowerUpManager : MonoBehaviour {
                 }
             }
 
-            board.DestroyFossil(targetFossil); // Destroy the fossil
-            Debug.Log($"Cleared fossil at ({targetFossil.x}, {targetFossil.y})");
+            board.DestroyFossil(targetFossil);
         }
     }
 }
