@@ -88,7 +88,6 @@ public class SwapManager : MonoBehaviour {
         bool hasMatches = (matches1 != null && matches1.Count >= 3) || (matches2 != null && matches2.Count >= 3);
 
         if (hasMatches) {
-            Debug.Log("Match found!");
             if (matches1 != null) matchManager.DestroyMatches(matches1);
             if (matches2 != null) matchManager.DestroyMatches(matches2);
         }
