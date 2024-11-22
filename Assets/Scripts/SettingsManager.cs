@@ -11,7 +11,6 @@ public class SettingsManager : MonoBehaviour {
     public TextMeshProUGUI sfxVolumeText;
 
     void Start() {
-        // Initialize sliders and text from AudioManager values
         int masterVolume = Mathf.RoundToInt(AudioManager.Instance.masterVolume * 100);
         int musicVolume = Mathf.RoundToInt(AudioManager.Instance.musicVolume * 100);
         int sfxVolume = Mathf.RoundToInt(AudioManager.Instance.sfxVolume * 100);
@@ -24,7 +23,6 @@ public class SettingsManager : MonoBehaviour {
         musicVolumeText.text = musicVolume.ToString();
         sfxVolumeText.text = sfxVolume.ToString();
 
-        // Add listeners for slider changes
         masterVolumeSlider.onValueChanged.AddListener(ChangeMasterVolume);
         musicVolumeSlider.onValueChanged.AddListener(ChangeMusicVolume);
         sfxVolumeSlider.onValueChanged.AddListener(ChangeSFXVolume);
