@@ -8,7 +8,7 @@ public class AnimationManager : MonoBehaviour {
     public float swapDuration = 0.15f;
     public float fallDuration = 0.15f;
     public IEnumerator AnimateSwap(Fossil fossil1, Fossil fossil2) {
-        AudioManager.Instance.PlaySound(AudioManager.Instance.swapSound); // Play swap sound
+        AudioManager.Instance.PlaySound(AudioManager.Instance.swap); // Play swap sound
         Vector3 startPos1 = fossil1.transform.position;
         Vector3 startPos2 = fossil2.transform.position;
 
@@ -32,8 +32,6 @@ public class AnimationManager : MonoBehaviour {
     }
 
     public IEnumerator AnimateFossilFall(Fossil fossil) {
-        AudioManager.Instance.PlaySound(AudioManager.Instance.fallSound); // Play fall sound
-
         Vector3 targetPosition = new Vector3(
             fossil.x - (board.width / 2),
             fossil.y - (board.height / 2),

@@ -2189,17 +2189,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e7c94bc63cf5cf42a4b48e33eb08365, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stageMusic: {fileID: 8300000, guid: f96d38e87c064544ea342b3904c37fbf, type: 3}
-  swapSound: {fileID: 8300000, guid: 15bb06965d040cd469dc0dacacd922a4, type: 3}
-  matchSound1: {fileID: 8300000, guid: 178e848007af17c4a9620e1b975632f3, type: 3}
-  matchSound2: {fileID: 8300000, guid: f423243b48e9fa746a51e64a39122401, type: 3}
-  matchSound3: {fileID: 8300000, guid: c7d69bbea38e14644802d229f2e0045e, type: 3}
-  matchSound4: {fileID: 8300000, guid: a71644021c2d12442abfe2f688fae8cd, type: 3}
-  fallSound: {fileID: 0}
-  stripeCreatedSound: {fileID: 8300000, guid: 5d7d2f947b10abd4e9b486d1b21171ee, type: 3}
-  wrapCreatedSound: {fileID: 8300000, guid: 2ec3c3ec51e73614d97aeedccad24d04, type: 3}
-  colorBombCreatedSound: {fileID: 8300000, guid: dca32dc6fbb49a24e9798904cc4b5b0f, type: 3}
-  gameOverSound: {fileID: 0}
+  stageMusic: {fileID: 8300000, guid: 9357a2f305eccde43b690ea49235a7fd, type: 3}
+  swap: {fileID: 8300000, guid: 15bb06965d040cd469dc0dacacd922a4, type: 3}
+  match1: {fileID: 8300000, guid: 178e848007af17c4a9620e1b975632f3, type: 3}
+  match2: {fileID: 8300000, guid: f423243b48e9fa746a51e64a39122401, type: 3}
+  match3: {fileID: 8300000, guid: c7d69bbea38e14644802d229f2e0045e, type: 3}
+  match4: {fileID: 8300000, guid: a71644021c2d12442abfe2f688fae8cd, type: 3}
+  stripeCreated: {fileID: 8300000, guid: 5d7d2f947b10abd4e9b486d1b21171ee, type: 3}
+  stripeBlast: {fileID: 8300000, guid: 8077b4642fa313d46b39a19fac7dc901, type: 3}
+  wrapCreated: {fileID: 8300000, guid: 2ec3c3ec51e73614d97aeedccad24d04, type: 3}
+  wrapBlast: {fileID: 8300000, guid: 3752933cf9466ba45a07c13b4f7ead82, type: 3}
+  colorBombCreated: {fileID: 8300000, guid: dca32dc6fbb49a24e9798904cc4b5b0f, type: 3}
+  colorBombBlast: {fileID: 8300000, guid: c1d1581828b3e714cbd289d9a3a8ba5a, type: 3}
+  gameOver: {fileID: 0}
   masterVolume: 1
   musicVolume: 0.3
   sfxVolume: 0.65

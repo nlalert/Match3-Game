@@ -112,16 +112,16 @@ public class MatchManager : MonoBehaviour{
         switch (randomSound)
         {
             case 0:
-                AudioManager.Instance.PlaySound(AudioManager.Instance.matchSound1); // Play match sound
+                AudioManager.Instance.PlaySound(AudioManager.Instance.match1); // Play match sound
                 break;
             case 1:
-                AudioManager.Instance.PlaySound(AudioManager.Instance.matchSound2); // Play match sound
+                AudioManager.Instance.PlaySound(AudioManager.Instance.match2); // Play match sound
                 break;
             case 2:
-                AudioManager.Instance.PlaySound(AudioManager.Instance.matchSound3); // Play match sound
+                AudioManager.Instance.PlaySound(AudioManager.Instance.match3); // Play match sound
                 break;
             default:
-                AudioManager.Instance.PlaySound(AudioManager.Instance.matchSound4); // Play match sound
+                AudioManager.Instance.PlaySound(AudioManager.Instance.match4); // Play match sound
                 break;
         }
     }

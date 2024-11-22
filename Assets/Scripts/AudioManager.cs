@@ -5,16 +5,18 @@ public class AudioManager : MonoBehaviour {
 
     public AudioClip stageMusic;
 
-    public AudioClip swapSound;
-    public AudioClip matchSound1;
-    public AudioClip matchSound2;
-    public AudioClip matchSound3;
-    public AudioClip matchSound4;
-    public AudioClip fallSound;
-    public AudioClip stripeCreatedSound;
-    public AudioClip wrapCreatedSound;
-    public AudioClip colorBombCreatedSound;
-    public AudioClip gameOverSound;
+    public AudioClip swap;
+    public AudioClip match1;
+    public AudioClip match2;
+    public AudioClip match3;
+    public AudioClip match4;
+    public AudioClip stripeCreated;
+    public AudioClip stripeBlast;
+    public AudioClip wrapCreated;
+    public AudioClip wrapBlast;
+    public AudioClip colorBombCreated;
+    public AudioClip colorBombBlast;
+    public AudioClip gameOver;
 
     private AudioSource musicSource;
     private AudioSource sfxSource;

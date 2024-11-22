@@ -28,7 +28,7 @@ public class MoveManager : MonoBehaviour
         return !(remainingMoves <= 0);
     }
     public void GameOver() {
-        AudioManager.Instance.PlaySound(AudioManager.Instance.gameOverSound); // Play game over sound
+        AudioManager.Instance.PlaySound(AudioManager.Instance.gameOver); // Play game over sound
         Debug.Log("Game Over! No moves remaining.");
     }
     
