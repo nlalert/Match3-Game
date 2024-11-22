@@ -2170,8 +2170,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 430a283bd21382040997ef479d2e41b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalMoves: 25
-  remainingMoves: 25
+  totalMoves: 20
+  remainingMoves: 20
   movesText: {fileID: 1222913218}
 --- !u!1 &559432967
 GameObject:
@@ -2560,7 +2560,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73357f13d34fb2c4cb19fdc37264c03e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timerText: {fileID: 297280908}
+  uiManager: {fileID: 1990476589}
 --- !u!1 &690768955
 GameObject:
   m_ObjectHideFlags: 0
@@ -6833,6 +6833,8 @@ MonoBehaviour:
   settingsPanel: {fileID: 2073823260}
   gameOverPanel: {fileID: 1989100735}
   winPanel: {fileID: 1793577043}
+  gameOverTimerText: {fileID: 297280908}
+  winTimerText: {fileID: 1612914132}
   isPaused: 0
 --- !u!1 &2073823260
 GameObject:

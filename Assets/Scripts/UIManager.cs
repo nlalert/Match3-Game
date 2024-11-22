@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -6,6 +7,8 @@ public class UIManager : MonoBehaviour {
     public GameObject settingsPanel;
     public GameObject gameOverPanel;
     public GameObject winPanel;
+    public TextMeshProUGUI gameOverTimerText;
+    public TextMeshProUGUI winTimerText;
     public bool isPaused = false;
 
     public void Resume() {
@@ -39,7 +42,7 @@ public class UIManager : MonoBehaviour {
 
     public void TogglePause() {
         if(IsGameEnd()) return;
-        
+
         if (isPaused)
             Resume();
         else
@@ -68,5 +71,10 @@ public class UIManager : MonoBehaviour {
     public void CloseSettings() {
         settingsPanel.SetActive(false);
         pausePanel.SetActive(true);
+    }
+
+    public void UpdateTimerText(int minutes, int seconds){
+        gameOverTimerText.text = $"Played Time: {minutes:00}:{seconds:00}";
+        winTimerText.text = $"Played Time: {minutes:00}:{seconds:00}";
     }
 }

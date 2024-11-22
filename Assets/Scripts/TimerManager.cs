@@ -3,7 +3,7 @@ using TMPro;
 
 public class TimerManager : MonoBehaviour
 {
-    public TextMeshProUGUI timerText;
+    public UIManager uiManager;
     private float elapsedTime;
     private bool isRunning = false;
 
@@ -14,7 +14,7 @@ public class TimerManager : MonoBehaviour
     void Update(){
         if (isRunning){
             elapsedTime += Time.deltaTime;
-            UpdateTimerUI();
+            UpdateUI();
         }
     }
 
@@ -28,7 +28,7 @@ public class TimerManager : MonoBehaviour
 
     public void ResetTimer(){
         elapsedTime = 0f;
-        UpdateTimerUI();
+        UpdateUI();
     }
 
     public void StopTimer(){
@@ -39,9 +39,9 @@ public class TimerManager : MonoBehaviour
         return elapsedTime;
     }
 
-    private void UpdateTimerUI(){
+    private void UpdateUI(){
         int minutes = Mathf.FloorToInt(elapsedTime / 60);
         int seconds = Mathf.FloorToInt(elapsedTime % 60);
-        timerText.text = $"Time: {minutes:00}:{seconds:00}";
+        uiManager.UpdateTimerText(minutes, seconds);
     }
 }
