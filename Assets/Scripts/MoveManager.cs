@@ -29,6 +29,6 @@ public class MoveManager : MonoBehaviour
     }
     
     private void UpdateMovesUI(){
-        movesText.text = "Moves: " + remainingMoves;
+        movesText.text = "Moves Left: " + remainingMoves;
     }
 }

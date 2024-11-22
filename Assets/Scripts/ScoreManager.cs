@@ -59,13 +59,13 @@ public class ScoreManager : MonoBehaviour
 
         switch (powerUpType) {
             case PowerUpType.LineClear:
-                baseScorePerFossil = 20;
+                baseScorePerFossil = 15;
                 break;
             case PowerUpType.Bomb:
-                baseScorePerFossil = 30;
+                baseScorePerFossil = 15;
                 break;
             case PowerUpType.DNA:
-                baseScorePerFossil = 10;
+                baseScorePerFossil = 20;
                 break;
         }
 
@@ -92,7 +92,7 @@ public class ScoreManager : MonoBehaviour
 
     private void WinGame() {
         if(uiManager.isPaused) return;
-        
+
         uiManager.Win();
         AudioManager.Instance.StopMusic();
         AudioManager.Instance.PlaySound(AudioManager.Instance.gamePass);
