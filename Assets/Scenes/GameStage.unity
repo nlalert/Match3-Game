@@ -4048,6 +4048,7 @@ MonoBehaviour:
   board: {fileID: 587334633}
   matchManager: {fileID: 1652388662}
   moveManager: {fileID: 543122440}
+  scoreManager: {fileID: 1583196363}
 --- !u!1 &1214430168
 GameObject:
   m_ObjectHideFlags: 0
@@ -5103,6 +5104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7abb90d712cd9ac4c9d1724e90c2d334, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  score: 0
   scoreSlider: {fileID: 1352310175}
   scoreText: {fileID: 1572451350}
   targetScore: 10000

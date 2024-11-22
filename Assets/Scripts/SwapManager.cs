@@ -6,6 +6,7 @@ public class SwapManager : MonoBehaviour {
     public BoardManager board;
     public MatchManager matchManager;
     public MoveManager moveManager;
+    public ScoreManager scoreManager;
 
     public void CheckAndSwap(Fossil fossil1, Fossil fossil2){
         if (AreAdjacent(fossil1, fossil2)){
@@ -23,7 +24,7 @@ public class SwapManager : MonoBehaviour {
         if (TryHandleMatches(fossil1, fossil2)){
             if (!moveManager.UseMove()){
                 Debug.Log("No moves remaining!");
-                moveManager.GameOver();
+                scoreManager.GameOver();
             }
 
             yield return StartCoroutine(FillEmptySpots());

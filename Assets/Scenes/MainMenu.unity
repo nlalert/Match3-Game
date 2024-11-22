@@ -2201,7 +2201,8 @@ MonoBehaviour:
   wrapBlast: {fileID: 8300000, guid: 3752933cf9466ba45a07c13b4f7ead82, type: 3}
   colorBombCreated: {fileID: 8300000, guid: dca32dc6fbb49a24e9798904cc4b5b0f, type: 3}
   colorBombBlast: {fileID: 8300000, guid: c1d1581828b3e714cbd289d9a3a8ba5a, type: 3}
-  gameOver: {fileID: 0}
+  gameOver: {fileID: 8300000, guid: 62e4f6ea12820d744a9eaa56c13c51b7, type: 3}
+  gamePass: {fileID: 8300000, guid: c0519eafa3fd88642ba39ff7f50d5bb6, type: 3}
   masterVolume: 1
   musicVolume: 0.3
   sfxVolume: 0.65

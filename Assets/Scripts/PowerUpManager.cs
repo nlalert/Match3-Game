@@ -85,10 +85,8 @@ public class PowerUpManager : MonoBehaviour {
     }
 
     private void CreatePowerUp(Fossil fossil, PowerUpType powerUpType) {
-        // Assign the power-up type to the fossil
         fossil.SetPowerUp(powerUpType);
 
-        // Change the sprite based on the power-up type
         SpriteRenderer spriteRenderer = fossil.GetComponent<SpriteRenderer>();
         switch (powerUpType) {
             case PowerUpType.LineClear:
@@ -100,9 +98,6 @@ public class PowerUpManager : MonoBehaviour {
             case PowerUpType.DNA:
                 spriteRenderer.sprite = dnaSpriteManager.GetSprite();
                 fossil.type = FossilType.DNA;
-                break;
-            default:
-                Debug.LogWarning("Unknown PowerUpType. No sprite assigned.");
                 break;
         }
     }
@@ -151,6 +146,7 @@ public class PowerUpManager : MonoBehaviour {
             ClearFossil(board.fossils[x, j]);
         }
 
+        AudioManager.Instance.PlaySound(AudioManager.Instance.stripeBlast);
         scoreManager.AddScoreForPowerUpActivation(PowerUpType.LineClear, clearedFossils.Count);
         Debug.Log($"LineClear activated at ({x}, {y})");
     }
@@ -170,6 +166,7 @@ public class PowerUpManager : MonoBehaviour {
             }
         }
 
+        AudioManager.Instance.PlaySound(AudioManager.Instance.wrapBlast);
         scoreManager.AddScoreForPowerUpActivation(PowerUpType.Bomb, clearedFossils.Count);
         Debug.Log($"Bomb activated at ({x}, {y})");
     }
@@ -187,6 +184,7 @@ public class PowerUpManager : MonoBehaviour {
             clearedFossils = ClearMatchingFossils(swappedFossil.type);
         }
 
+        AudioManager.Instance.PlaySound(AudioManager.Instance.colorBombBlast);
         scoreManager.AddScoreForPowerUpActivation(PowerUpType.DNA, clearedFossils.Count);
         Debug.Log($"DNA activated: Cleared {clearedFossils.Count} fossils of type {swappedFossil.type}");
     }
@@ -296,7 +294,6 @@ public class PowerUpManager : MonoBehaviour {
             }
         }
 
-        Debug.Log("Cleared entire board.");
         return clearedFossils;
     }
 

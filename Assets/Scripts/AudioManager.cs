@@ -17,6 +17,7 @@ public class AudioManager : MonoBehaviour {
     public AudioClip colorBombCreated;
     public AudioClip colorBombBlast;
     public AudioClip gameOver;
+    public AudioClip gamePass;
 
     private AudioSource musicSource;
     private AudioSource sfxSource;
@@ -43,9 +44,12 @@ public class AudioManager : MonoBehaviour {
     }
 
     public void PlayMusic(AudioClip clip) {
-        musicSource.Stop();
+        StopMusic();
         musicSource.clip = clip;
         musicSource.Play();
+    }
+    public void StopMusic() {
+        musicSource.Stop();
     }
 
     public void PlaySound(AudioClip clip) {

@@ -5,15 +5,13 @@ using System.Collections.Generic;
 
 public class ScoreManager : MonoBehaviour
 {
-    public int score { get; private set; }
+    public int score = 0;
     public Slider scoreSlider; // Slider to represent the score
     public TextMeshProUGUI scoreText; // Text to display the numeric score
     public int targetScore = 10000; // Score required to win
+    private GameState state = GameState.Playing;
 
     private void Start() {
-        score = 0;
-
-        // Configure the slider
         scoreSlider.maxValue = targetScore;
         scoreSlider.value = score;
 
@@ -93,7 +91,26 @@ public class ScoreManager : MonoBehaviour
     }
 
     private void WinGame() {
-        Debug.Log("Congratulations! You've reached the target score and won the game!");
-        // Implement further win logic, like showing a win screen or stopping gameplay.
+        if(state == GameState.Playing){
+            Debug.Log("Congratulations! You've reached the target score and won the game!");
+            AudioManager.Instance.StopMusic();
+            AudioManager.Instance.PlaySound(AudioManager.Instance.gamePass);
+            state = GameState.Won;
+        }
     }
+
+    public void GameOver() {
+        if(state == GameState.Playing){
+            AudioManager.Instance.StopMusic();
+            AudioManager.Instance.PlaySound(AudioManager.Instance.gameOver); // Play game over sound
+            Debug.Log("Game Over! No moves remaining.");
+            state = GameState.Lose;
+        }
+    }
+}
+
+public enum GameState {
+    Playing,
+    Won,
+    Lose
 }
