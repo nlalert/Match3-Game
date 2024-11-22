@@ -20,6 +20,7 @@ public class BoardManager : MonoBehaviour
         hiddenRow = height;
         InitializeBoard();
         timer.StartTimer();
+        AudioManager.Instance.PlayMusic(AudioManager.Instance.stageMusic);
     }
 
     private void InitializeBoard() {
