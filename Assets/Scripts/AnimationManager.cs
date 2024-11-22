@@ -7,7 +7,7 @@ public class AnimationManager : MonoBehaviour{
     public float swapDuration = 0.15f;
     public float fallDuration = 0.15f;
 
-    /// Animates the swapping of two fossils on the board.
+    // Animates the swapping of two fossils on the board
     public IEnumerator AnimateSwap(Fossil fossil1, Fossil fossil2) {
         // Play swap sound effect
         AudioManager.Instance.PlaySound(AudioManager.Instance.swap);
@@ -39,7 +39,7 @@ public class AnimationManager : MonoBehaviour{
         board.swapManager.CompleteSwap(fossil1, fossil2);
     }
 
-    /// Animates a fossil falling to position on the board.
+    // Animates a fossil falling to position on the board
     public IEnumerator AnimateFossilFall(Fossil fossil) {
         if (fossil == null)
             yield break;

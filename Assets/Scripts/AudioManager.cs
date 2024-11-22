@@ -19,23 +19,26 @@ public class AudioManager : MonoBehaviour {
     public AudioClip gameOver;
     public AudioClip gamePass;
 
-    private AudioSource musicSource;
-    private AudioSource sfxSource;
+    private AudioSource musicSource; // for background music
+    private AudioSource sfxSource;  // for sound effects
 
     public float masterVolume = 1f;
     public float musicVolume = 1f;
     public float sfxVolume = 1f;
 
-    private void Awake() {
-        if (Instance == null) {
+    // make audio stay for every scene
+    private void Awake(){
+        if (Instance == null){
             Instance = this;
             DontDestroyOnLoad(gameObject);
-        } else {
+        }
+        else{
             Destroy(gameObject);
         }
     }
 
-    private void Start() {
+    // setup audio sources and sets initial volume levels
+    private void Start(){
         musicSource = gameObject.AddComponent<AudioSource>();
         sfxSource = gameObject.AddComponent<AudioSource>();
 
@@ -43,37 +46,45 @@ public class AudioManager : MonoBehaviour {
         UpdateVolumes();
     }
 
-    public void PlayMusic(AudioClip clip) {
+    // Plays music, stop current music first
+    public void PlayMusic(AudioClip clip){
         StopMusic();
         musicSource.clip = clip;
         musicSource.Play();
     }
-    public void StopMusic() {
+
+    // stop current music
+    public void StopMusic(){
         musicSource.Stop();
     }
 
-    public void PlaySound(AudioClip clip) {
-        if (clip != null) {
+    // Plays sound effect once
+    public void PlaySound(AudioClip clip){
+        if (clip != null){
             sfxSource.PlayOneShot(clip, sfxVolume * masterVolume);
         }
     }
 
-    public void SetMasterVolume(float value) {
+    // Set master volume
+    public void SetMasterVolume(float value){
         masterVolume = Mathf.Clamp01(value);
         UpdateVolumes();
     }
 
-    public void SetMusicVolume(float value) {
+    // Set music volume
+    public void SetMusicVolume(float value){
         musicVolume = Mathf.Clamp01(value);
         UpdateVolumes();
     }
 
-    public void SetSFXVolume(float value) {
+    // Set SFX volume and update the SFX source
+    public void SetSFXVolume(float value){
         sfxVolume = Mathf.Clamp01(value);
         UpdateVolumes();
     }
 
-    private void UpdateVolumes() {
+    // Update volume of the music and SFX audio source
+    private void UpdateVolumes(){
         if (musicSource != null)
             musicSource.volume = musicVolume * masterVolume;
 
@@ -81,12 +92,14 @@ public class AudioManager : MonoBehaviour {
             sfxSource.volume = sfxVolume * masterVolume;
     }
 
-    public void PauseAudio() {
+    // Pause all audio
+    public void PauseAudio(){
         musicSource.Pause();
         sfxSource.Pause();
     }
 
-    public void ResumeAudio() {
+    // Resume all paused audio
+    public void ResumeAudio(){
         musicSource.UnPause();
         sfxSource.UnPause();
     }
